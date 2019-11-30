@@ -87,3 +87,9 @@ typings/
 
 # Electron-Forge
 out/
+
+# vscode stuff
+.vscode/
+
+# mysql connection string information
+flask_back_up/config.yml
