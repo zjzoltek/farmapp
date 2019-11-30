@@ -1,70 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
- 
-<head>
+  <head>
     <title>Farm App</title>
- 
- 
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
- 
-    <link href="../static/css/jumbotron-narrow.css" rel="stylesheet" type="text/css">
- 
- 
-</head>
- 
-<body>
- 
+
+    <link
+      href="../static/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="../static/css/jumbotron-narrow.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link href="../static/css/homePage.css" rel="stylesheet" />
+  </head>
+
+  <body>
     <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#">Home</a>
-                    </li>
-                    <li role="presentation"><a href="showSignIn">Sign In</a>
-                    </li>
-                    <li role="presentation"><a href="showSignUp">Sign Up</a>
-                    </li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">Farm App</h3>
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active">
+              <a href="#" id="NavItem">Home </a>
+            </li>
+            <li role="presentation">
+              <a href="showSignIn" id="NavItem">Sign In </a>
+            </li>
+            <li role="presentation">
+              <a href="showSignUp" id="NavItem">Sign Up</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Farm App</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Farm App</h1>
+        <p class="lead"></p>
+        <p>
+          <a class="btn btn-lg btn-success" href="showSignUp" role="button"
+            >Sign up today</a
+          >
+        </p>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>The Question</h4>
+          <p>
+            When we began brainstorming this application, farmers were at the
+            front of our minds. What was something within our reach that we
+            could create to aid farmers in a significant way? It had to be a
+            tool that would simplify an almost daily activity; What is an
+            activity vital to keeping a farm up and running that is done daily?
+          </p>
         </div>
- 
-        <div class="jumbotron">
-            <h1>Farm App</h1>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="showSignUp" role="button">Sign up today</a>
-            </p>
+
+        <div class="col-lg-6">
+          <h4>Our Goal</h4>
+          <p>
+            Farms can have hundreds of items to keep track of; any where from
+            cows and chickens to seeds and haystacks. Being able to keep track
+            of it all must be a pain without decent software! That’s were we
+            come in. We designed an application meant to alleviate as much of
+            the burden of tracking everything on a farm. We did so by keeping in
+            mind what a farmer could possibly need to keep track of. Everything
+            from livestock vaccines and medical records to their lineage and
+            Buttercup’s birthday.
+          </p>
         </div>
- 
-        <div class="row marketing">
-            <div class="col-lg-6">
-                <h4>Stuff</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
- 
-                <h4>Stuff</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
- 
-                <h4>Stuff</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
- 
-            <div class="col-lg-6">
-                <h4>Stuff</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
- 
-                <h4>Stuff</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
- 
-                <h4>Stuff</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
-        </div>
- 
-        <footer class="footer">
-            <p> UMKC 2019 Fall CS470</p>
-        </footer>
- 
+      </div>
+
+      <footer class="footer">
+        <p>UMKC 2019 Fall CS470</p>
+      </footer>
     </div>
-</body>
- 
+  </body>
 </html>
