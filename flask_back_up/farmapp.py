@@ -98,10 +98,27 @@ def showAllLivestockView():
     cursor = con.cursor()
     cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
     data = cursor.fetchall()
+    cursor.close()
     return render_template('showAllLivestockView.html', livestockdata=data)
+
+@app.route('/showMedicalRecords/<string:id>', methods=['GET', 'POST'])
+def showMedicalRecords(id):
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_ALL_Medication_Records',[id])
+    medicationRecord = cursor.fetchall()
+    cursor.callproc('Get_all_Vaccination_Records', [id])
+    vaccinationRecord = cursor.fetchall()
+    cursor.callproc('Get_all_vetvisits_records', [id])
+    vetVisits = cursor.fetchall()
+    cursor.close()
+    print(medicationRecord)
+    print(vaccinationRecord)
+    return render_template('showMedicalRecords.html', medRecord = medicationRecord, vaccinRecord = vaccinationRecord, vetRecord = vetVisits)
 
 @app.route('/viewPastures')
 def viewPastures():
     return render_template('viewPastures.html')
+
 if __name__ == "__main__":
     app.run()
