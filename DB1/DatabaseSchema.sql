@@ -9,7 +9,7 @@ CREATE TABLE Users(
     zip_code INT,
     phone_num INT,
     email VARCHAR(244),
-    passwd_hash CHAR(44) NOT NULL,
+    passwd_hash CHAR(95) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
