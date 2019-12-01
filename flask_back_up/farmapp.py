@@ -72,7 +72,6 @@ def validateLogin():
     # connect to mysql
         cursor.callproc('validateLogin',(_username,))
         data = cursor.fetchall()
-        print(data)
         if len(data) > 0:
             if check_password_hash(str(data[0][8]),_password):
                 session['user'] = data[0][0]
