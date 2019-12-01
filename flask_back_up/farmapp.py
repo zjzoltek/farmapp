@@ -88,10 +88,6 @@ def validateLogin():
 def userHome():
     return render_template('userHome.html')
 
-@app.route('/viewLivestock')
-def viewLivestock():
-    return render_template('viewLivestock.html')
-
 @app.route('/showAllLivestockView')
 def showAllLivestockView():
     con = mysql.connect()
@@ -100,6 +96,36 @@ def showAllLivestockView():
     data = cursor.fetchall()
     cursor.close()
     return render_template('showAllLivestockView.html', livestockdata=data)
+
+@app.route('/add_Livestock', methods=['POST'])
+def add_Livestock():
+    if request.method == 'POST':
+        ownerID = request.form['OwnerID']
+        bornDate = request.form['input_born_date']
+        subType = request.form['input_sub_type']
+        health = request.form['input_health']
+        notes = request.form['input_notes']
+        weight = request.form['input_weight']
+        market_date = request.form['input_market_date']
+        goal = request.form['input_goal_price']
+        sale = request.form['input_sale_price']
+        location = request.form['input_location']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_livestock_Record',(ownerID, bornDate, subType, health, notes, weight, market_date, goal, sale, location))
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/deleteLiverstockRecord/<string:livestockID>', methods=['POST'])
+def deleteLiverstockRecord(livestockID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_livestock_Record',[livestockID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
 
 @app.route('/showMedicalRecords/<string:id>', methods=['GET', 'POST'])
 def showMedicalRecords(id):
@@ -189,7 +215,7 @@ def delete_vetRecord(vetID):
         con.commit()
         cursor.close()
     return json.dumps({'message':'record created successfully !'})
-    
+
 @app.route('/viewPastures')
 def viewPastures():
     return render_template('viewPastures.html')
