@@ -17,6 +17,8 @@
 
     <link href="../static/css/NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/viewSelection.css" />
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/MedicalRecordsPage.js"></script>
   </head>
   <body>
     <div class="container">
@@ -37,6 +39,7 @@
         <h3>Medication records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Medication ID</td>
             <td>Medication Name</td>
             <td>Start Date</td>
@@ -47,7 +50,19 @@
             {% for medication in medRecord%}
             <tr>
               <td>
-                {{livestock.0}}
+                <button
+                  id="deleteMedicalRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{medication.0}}"
+                  title="Delete this record"
+                  onclick="deleteMedicalRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
+              <td>
+                {{medication.0}}
               </td>
               <td>
                 {{medication.1}}
@@ -65,11 +80,60 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Medication Record Below:</p>
+          <form id="newMidcationRecord">
+            <input
+              type="text"
+              name="input_medication_name"
+              id="input_medication_name"
+              placeholder="Enter Medication Name"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_start_date"
+              id="input_start_date"
+              placeholder="Enter Start Date (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_end_date"
+              id="input_end_date"
+              placeholder="Enter End Date (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_medication_interval"
+              id="input_medication_interval"
+              placeholder="Enter Intervals"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
+            />
+            <button
+              id="addMedicationButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
+      <br />
       <div>
         <h3>Vaccination records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Vaccination ID</td>
             <td>Vaccination Type</td>
             <td>Date Given</td>
@@ -77,6 +141,18 @@
           <tbody>
             {% for vaccin in vaccinRecord%}
             <tr>
+              <td>
+                <button
+                  id="deleteVaccineRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{vaccin.0}}"
+                  title="Delete this record"
+                  onclick="deleteVaccineRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 {{vaccin.0}}
               </td>
@@ -90,11 +166,46 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Vaccination Record Below:</p>
+          <form id="newVaccinationRecord">
+            <input
+              type="text"
+              name="input_vaccin_type"
+              id="input_vaccin_type"
+              placeholder="Enter Vaccination Type"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_date_given"
+              id="input_date_given"
+              placeholder="Enter Date Given (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
+            />
+            <button
+              id="addVaccinationButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
+      <br />
       <div>
         <h3>Vet Visit records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Visit ID</td>
             <td>Visit Date</td>
             <td>Vet Name</td>
@@ -105,6 +216,18 @@
           <tbody>
             {% for vet in vetRecord%}
             <tr>
+              <td>
+                <button
+                  id="deleteVisitRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{vet.0}}"
+                  title="Delete this record"
+                  onclick="deleteVetRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 {{vet.0}}
               </td>
@@ -127,6 +250,60 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Vet Visit Record Below:</p>
+          <form id="newVetVisitRecord">
+            <input
+              type="text"
+              name="input_vet_name"
+              id="input_vet_name"
+              placeholder="Enter Vet's Name"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_date"
+              id="input_visit_date"
+              placeholder="Enter Date of Visit (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_cost"
+              id="input_visit_cost"
+              placeholder="Enter Cost"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_reason"
+              id="input_visit_reason"
+              placeholder="Enter Reason for Visit"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_notes"
+              id="input_visit_notes"
+              placeholder="Enter Any Notes"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
+            />
+            <button
+              id="addVetVisitButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </body>

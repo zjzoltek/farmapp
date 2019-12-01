@@ -17,6 +17,8 @@
 
     <link href="../static/css/NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/viewSelection.css" />
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/LivestockRecordsPage.js"></script>
   </head>
   <body>
     <div class="container">
@@ -37,6 +39,7 @@
       <div>
         <table class="table">
           <thead>
+            <td></td>
             <td>Livestock ID</td>
             <td>Date of Birth</td>
             <td>Sub Type</td>
@@ -50,6 +53,18 @@
           <tbody>
             {% for livestock in livestockdata%}
             <tr>
+              <td>
+                <button
+                  id="deleteLivestockRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{livestock.0}}"
+                  title="Delete this record"
+                  onclick="deleteLiverstockRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 <a href="showMedicalRecords/{{livestock.0}}">{{livestock.0}}</a>
               </td>
@@ -81,6 +96,92 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
+      <br />
+      <div>
+        <p>Add New Livestock Record Below:</p>
+        <form id="newLivestockRecord">
+          <input
+            type="text"
+            name="input_born_date"
+            id="input_born_date"
+            placeholder="Enter Date of Birth (YYYY-MM-DD)"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_sub_type"
+            id="input_sub_type"
+            placeholder="Enter Sub Type"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_health"
+            id="input_health"
+            placeholder="Health Status (H-Healthy, M-Okay, S-Sick)"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_notes"
+            id="input_notes"
+            placeholder="Enter Any Notes"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_weight"
+            id="input_weight"
+            placeholder="Enter Weight"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_market_date"
+            id="input_market_date"
+            placeholder="Enter Market Date (YYYY-MM-DD)"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_goal_price"
+            id="input_goal_price"
+            placeholder="Enter Goal Sale Price"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_sale_price"
+            id="input_sale_price"
+            placeholder="Enter Sale Price"
+            size="30"
+            class="livestockInput"
+          />
+          <input
+            type="text"
+            name="input_location"
+            id="input_location"
+            placeholder="Enter Location"
+            size="30"
+            class="livestockInput"
+          />
+          <input type="text" name="OwnerID" style="display: none;" value="1" />
+          <button
+            id="addLivestockButton"
+            class="btn btn-primary btn-xs"
+            type="button"
+          >
+            Add
+          </button>
+        </form>
       </div>
     </div>
   </body>

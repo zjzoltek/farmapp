@@ -101,10 +101,6 @@ def logout():
     session.pop('user', None)
     return redirect('/')
 
-@app.route('/viewLivestock')
-def viewLivestock():
-    return render_template('viewLivestock.html')
-
 @app.route('/showAllLivestockView')
 def showAllLivestockView():
     con = mysql.connect()
@@ -113,6 +109,36 @@ def showAllLivestockView():
     data = cursor.fetchall()
     cursor.close()
     return render_template('showAllLivestockView.html', livestockdata=data)
+
+@app.route('/add_Livestock', methods=['POST'])
+def add_Livestock():
+    if request.method == 'POST':
+        ownerID = request.form['OwnerID']
+        bornDate = request.form['input_born_date']
+        subType = request.form['input_sub_type']
+        health = request.form['input_health']
+        notes = request.form['input_notes']
+        weight = request.form['input_weight']
+        market_date = request.form['input_market_date']
+        goal = request.form['input_goal_price']
+        sale = request.form['input_sale_price']
+        location = request.form['input_location']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_livestock_Record',(ownerID, bornDate, subType, health, notes, weight, market_date, goal, sale, location))
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/deleteLiverstockRecord/<string:livestockID>', methods=['POST'])
+def deleteLiverstockRecord(livestockID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_livestock_Record',[livestockID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
 
 @app.route('/showMedicalRecords/<string:id>', methods=['GET', 'POST'])
 def showMedicalRecords(id):
@@ -125,9 +151,83 @@ def showMedicalRecords(id):
     cursor.callproc('Get_all_vetvisits_records', [id])
     vetVisits = cursor.fetchall()
     cursor.close()
-    print(medicationRecord)
-    print(vaccinationRecord)
-    return render_template('showMedicalRecords.html', medRecord = medicationRecord, vaccinRecord = vaccinationRecord, vetRecord = vetVisits)
+    return render_template('showMedicalRecords.html', livestockID = id, medRecord = medicationRecord, vaccinRecord = vaccinationRecord, vetRecord = vetVisits)
+
+@app.route('/add_Medication', methods=['POST'])
+def add_Medication():
+    if request.method == 'POST':
+        livestockID = request.form['livestockID']
+        medicationName = request.form['input_medication_name']
+        start_date = request.form['input_start_date']
+        end_date = request.form['input_end_date']
+        med_interval = request.form['input_medication_interval']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_Medication_Record',(livestockID, medicationName, start_date, end_date, med_interval))
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_medicationRecord/<string:medID>', methods=['POST'])
+def delete_medicationRecord(medID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_Medication_Record',[medID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/add_Vaccination', methods=['POST'])
+def add_Vaccination():
+    if request.method == 'POST':
+        livestockID = request.form['livestockID']
+        vaccinType = request.form['input_vaccin_type']
+        vaccinDate = request.form['input_date_given']
+        print(livestockID, vaccinType, vaccinDate)
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_Vaccination_Record', (livestockID, vaccinType, vaccinDate))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_vaccineRecord/<string:vaccID>', methods=['POST'])
+def delete_vaccineRecord(vaccID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_Vaccination_Record',[vaccID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/add_vetVisit', methods=['POST'])
+def add_vetVisit():
+    if request.method == 'POST':
+        livestockID = request.form['livestockID']
+        visitDate =  request.form['input_visit_date']
+        vetName =  request.form['input_vet_name']
+        cost = request.form['input_visit_cost']
+        reason = request.form['input_visit_reason']
+        notes =  request.form['input_visit_notes']
+        print(livestockID, visitDate, vetName, cost, reason, notes)
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_VetVist_Record',(livestockID, visitDate, vetName, cost, reason, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_vetRecord/<string:vetID>', methods=['POST'])
+def delete_vetRecord(vetID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_VetVisit_Record',[vetID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
 
 @app.route('/viewPastures')
 def viewPastures():
