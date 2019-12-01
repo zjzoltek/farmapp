@@ -1,3 +1,5 @@
+CREATE SCHEMA livestockmanagementschema;
+
 USE livestockmanagementschema;
 
 CREATE TABLE Users(
