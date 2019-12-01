@@ -23,7 +23,8 @@ BEGIN
             address,
             zip_code,
             phone_num,
-            email
+            email,
+            passwd_hash
         )
         values
         (
@@ -33,19 +34,8 @@ BEGIN
             p_address,
             p_zip_code,
             p_phone_num,
-            p_email
-        );
-        select @us:=user_id from users where email = p_email;
-
-        insert into passwd
-        (
-            user_id,
+            p_email,
             passwd
-        )
-        values
-        (
-            us,
-            p_passwd
         );
      
     END IF;

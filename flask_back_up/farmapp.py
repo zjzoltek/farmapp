@@ -47,13 +47,13 @@ def signUp():
             data = cursor.fetchall()
             if len(data) is 0:
                 conn.commit()
-                return redirect('/signIn')
+                return redirect('/showSignIn')
             else:
-                return render_template('error.html', error = str(data[0]))
+                return str(data[0])
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
     except Exception as e:
-        return render_template('error.html', error = str(e))
+        return str(e)
     finally:
         cursor.close() 
         conn.close()

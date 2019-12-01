@@ -9,11 +9,12 @@ CREATE TABLE Users(
     zip_code INT,
     phone_num INT,
     email VARCHAR(244),
+    passwd_hash CHAR(44) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
 INSERT INTO Users(user_id, user_type, first_name, last_name, address, zip_code, phone_num, email)
-VALUES(1, 'reg_usr', 'Bob', 'Dunlap', '1239 E 117th, FarmVille MO', 64004, 816-666-7777, 'bobsFarm@email.com');
+VALUES(1, 'reg_usr', 'Bob', 'Dunlap', '1239 E 117th, FarmVille MO', 64004, 816-666-7777, 'bobsFarm@email.com', '81b637d8fcd2c6da6359e6963113a1170de795e4b725b84d1e0b4cfd9ec58ce9');
 
 CREATE TABLE Pastures(
 	nickname VARCHAR(244),
