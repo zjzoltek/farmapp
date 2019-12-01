@@ -114,10 +114,10 @@ def showMedicalRecords(id):
     cursor.close()
     return render_template('showMedicalRecords.html', livestockID = id, medRecord = medicationRecord, vaccinRecord = vaccinationRecord, vetRecord = vetVisits)
 
-@app.route('/add_Medication', methods=['GET','POST'])
+@app.route('/add_Medication', methods=['POST'])
 def add_Medication():
-    livestockID = request.form['livestockID']
     if request.method == 'POST':
+        livestockID = request.form['livestockID']
         medicationName = request.form['input_medication_name']
         start_date = request.form['input_start_date']
         end_date = request.form['input_end_date']
@@ -125,18 +125,10 @@ def add_Medication():
         print(livestockID, medicationName, start_date, end_date, med_interval)
         con = mysql.connect()
         cursor = con.cursor()
-        cursor.callproc('Insert_new_Medication_Record',[livestockID, medicationName, start_date, end_date, med_interval])
+        cursor.callproc('Insert_new_Medication_Record',(livestockID, medicationName, start_date, end_date, med_interval))
+        con.commit()
         cursor.close()
-    con = mysql.connect()
-    cursor = con.cursor()
-    cursor.callproc('Get_ALL_Medication_Records',[livestockID])
-    medicationRecord = cursor.fetchall()
-    cursor.callproc('Get_all_Vaccination_Records', [livestockID])
-    vaccinationRecord = cursor.fetchall()
-    cursor.callproc('Get_all_vetvisits_records', [livestockID])
-    vetVisits = cursor.fetchall()
-    cursor.close()
-    return render_template('showMedicalRecords.html', livestockID = livestockID, medRecord = medicationRecord, vaccinRecord = vaccinationRecord, vetRecord = vetVisits)
+    return json.dumps({'message':'record created successfully !'})
 
 @app.route('/viewPastures')
 def viewPastures():

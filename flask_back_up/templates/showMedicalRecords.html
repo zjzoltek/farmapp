@@ -17,6 +17,8 @@
 
     <link href="../static/css/NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/viewSelection.css" />
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/MedicalRecordsPage.js"></script>
   </head>
   <body>
     <div class="container">
@@ -68,11 +70,7 @@
         <br />
         <div>
           <p>Add New Medication Record Below:</p>
-          <form
-            name="newMidcationRecord"
-            methods="POST"
-            action="/add_Medication"
-          >
+          <form id="newMidcationRecord">
             <input
               type="text"
               name="input_medication_name"
@@ -103,7 +101,13 @@
               style="display: none;"
               value="{{livestockID}}"
             />
-            <input name="submitButton" value="Submit" type="submit" />
+            <button
+              id="addMedicationButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
           </form>
         </div>
       </div>
@@ -170,6 +174,31 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Vaccination Record Below:</p>
+          <form id="newVaccinationRecord">
+            <input
+              type="text"
+              name="input_vaccin_type"
+              placeholder="Enter Vaccination Type"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_date_given"
+              placeholder="Enter Date Given (YYYY-MM-DD)"
+              size="30"
+            />
+            <button
+              id="addVaccinationButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </body>
