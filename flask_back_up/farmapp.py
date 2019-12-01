@@ -129,6 +129,16 @@ def add_Medication():
         cursor.close()
     return json.dumps({'message':'record created successfully !'})
 
+@app.route('/delete_medicationRecord/<string:medID>', methods=['POST'])
+def delete_medicationRecord(medID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_Medication_Record',[medID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
 @app.route('/add_Vaccination', methods=['POST'])
 def add_Vaccination():
     if request.method == 'POST':
@@ -141,6 +151,16 @@ def add_Vaccination():
         cursor.callproc('Insert_new_Vaccination_Record', (livestockID, vaccinType, vaccinDate))
         con.commit()
         con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_vaccineRecord/<string:vaccID>', methods=['POST'])
+def delete_vaccineRecord(vaccID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_Vaccination_Record',[vaccID])
+        con.commit()
+        cursor.close()
     return json.dumps({'message':'record created successfully !'})
 
 @app.route('/add_vetVisit', methods=['POST'])
@@ -159,6 +179,17 @@ def add_vetVisit():
         con.commit()
         con.close()
     return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_vetRecord/<string:vetID>', methods=['POST'])
+def delete_vetRecord(vetID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_VetVisit_Record',[vetID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+    
 @app.route('/viewPastures')
 def viewPastures():
     return render_template('viewPastures.html')

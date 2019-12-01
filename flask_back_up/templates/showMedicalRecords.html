@@ -39,6 +39,7 @@
         <h3>Medication records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Medication ID</td>
             <td>Medication Name</td>
             <td>Start Date</td>
@@ -48,6 +49,18 @@
           <tbody>
             {% for medication in medRecord%}
             <tr>
+              <td>
+                <button
+                  id="deleteMedicalRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{medication.0}}"
+                  title="Delete this record"
+                  onclick="deleteMedicalRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 {{medication.0}}
               </td>
@@ -120,6 +133,7 @@
         <h3>Vaccination records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Vaccination ID</td>
             <td>Vaccination Type</td>
             <td>Date Given</td>
@@ -127,6 +141,18 @@
           <tbody>
             {% for vaccin in vaccinRecord%}
             <tr>
+              <td>
+                <button
+                  id="deleteVaccineRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{vaccin.0}}"
+                  title="Delete this record"
+                  onclick="deleteVaccineRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 {{vaccin.0}}
               </td>
@@ -179,6 +205,7 @@
         <h3>Vet Visit records</h3>
         <table class="table">
           <thead>
+            <td></td>
             <td>Visit ID</td>
             <td>Visit Date</td>
             <td>Vet Name</td>
@@ -189,6 +216,18 @@
           <tbody>
             {% for vet in vetRecord%}
             <tr>
+              <td>
+                <button
+                  id="deleteVisitRecord"
+                  class="btn btn-primary btn-xs"
+                  type="button"
+                  value="{{vet.0}}"
+                  title="Delete this record"
+                  onclick="deleteVetRecord(this.value)"
+                >
+                  X
+                </button>
+              </td>
               <td>
                 {{vet.0}}
               </td>

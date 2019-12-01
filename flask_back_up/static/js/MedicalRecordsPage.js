@@ -14,6 +14,7 @@ $(function() {
     });
   });
 });
+
 $(function() {
   $("#addVaccinationButton").on("click", function() {
     $.ajax({
@@ -28,6 +29,7 @@ $(function() {
     });
   });
 });
+
 $(function() {
   $("#addVetVisitButton").on("click", function() {
     $.ajax({
@@ -45,3 +47,33 @@ $(function() {
     });
   });
 });
+
+function deleteMedicalRecord(val) {
+  $.ajax({
+    url: "/delete_medicationRecord/" + val,
+    type: "POST",
+    success: function(response) {
+      window.location.reload();
+    }
+  });
+}
+
+function deleteVaccineRecord(val) {
+  $.ajax({
+    url: "/delete_vaccineRecord/" + val,
+    type: "POST",
+    success: function(response) {
+      window.location.reload();
+    }
+  });
+}
+
+function deleteVetRecord(val) {
+  $.ajax({
+    url: "/delete_vetRecord/" + val,
+    type: "POST",
+    success: function(response) {
+      window.location.reload();
+    }
+  });
+}
