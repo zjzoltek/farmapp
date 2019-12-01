@@ -76,7 +76,7 @@ def validateLogin():
         if len(data) > 0:
             if check_password_hash(str(data[0][8]),_password):
                 session['user'] = data[0][0]
-                return redirect('/userHome', user_id = data[0][0])
+                return redirect('/userHome')
             else:
                 return render_template('error.html',error = 'Wrong Email address or Password.')
         else:
