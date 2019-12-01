@@ -28,6 +28,10 @@ INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
 VALUES('East Pasture', 1, 1, 'For Cattle');
 INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
 VALUES('South Pasture', 2, 1, 'For Cattle');
+INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
+VALUES('West Pasture', 3, 1, 'For Cattle');
+INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
+VALUES('North Pasture', 4, 1, 'For Cattle');
 
 CREATE TABLE Pasture_Maintenance(
 	maintenance_id INT NOT NULL UNIQUE, 
@@ -38,9 +42,15 @@ CREATE TABLE Pasture_Maintenance(
     PRIMARY KEY(maintenance_id), 
     FOREIGN KEY(location) REFERENCES Pastures(pasture_id)
     );
-    
+ 
 INSERT INTO Pasture_Maintenance(maintenance_id,location, maintenance_type, cost, notes)
-VALUES(1, 1, 3, 24375,'Annual Care');
+VALUES(1, 1, 3, 243.75,'Annual Care');
+INSERT INTO Pasture_Maintenance(maintenance_id,location, maintenance_type, cost, notes)
+VALUES(2, 2, 3, 243.75,'Annual Care');
+INSERT INTO Pasture_Maintenance(maintenance_id,location, maintenance_type, cost, notes)
+VALUES(3, 3, 3, 243.75,'Annual Care');
+INSERT INTO Pasture_Maintenance(maintenance_id,location, maintenance_type, cost, notes)
+VALUES(4, 4, 3, 243.75,'Annual Care');
  
 CREATE TABLE livestock(
 	livestock_id INT NOT NULL AUTO_INCREMENT UNIQUE,
@@ -61,22 +71,23 @@ CREATE TABLE livestock(
 
 ALTER TABLE livestock MODIFY weight REAL(6,1);
 
+
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(77, 1, '2019-10-10','calf', 'H', NULL, 2820, '2020-06-20', 1000, NULL, 1);
+VALUES(77, 1, '2019-10-10','calf', 'H', NULL, 282.0, '2020-06-20', 1000, NULL, 1);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(68, 1, '2019-09-22','calf', 'H', NULL, 200, '2020-06-20', 1000, NULL, 1);
+VALUES(68, 1, '2019-09-22','calf', 'H', NULL, 200.0, '2020-06-20', 1000, NULL, 1);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(21, 1, '2016-10-10','cow', 'H', NULL, 19730, NULL, 3000, NULL, 1);
+VALUES(21, 1, '2016-10-10','cow', 'H', NULL, 1973.0, NULL, 3000, NULL, 1);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(23, 1, '2016-09-11','cow', 'H', NULL, 1770, NULL, 3000, NULL, 1);
+VALUES(23, 1, '2016-09-11','cow', 'H', NULL, 1770.0, NULL, 3000, NULL, 1);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(99, 1, '2017-01-06','bull', 'M', NULL, 21500, NULL , 1000, NULL, 1);
+VALUES(99, 1, '2017-01-06','bull', 'M', NULL, 2150.0, NULL , 1000, NULL, 1);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(24, 1, '2017-4-28','cow', 'H', NULL, 1700, NULL, 2000, NULL, 2);
+VALUES(24, 1, '2017-4-28','cow', 'H', NULL, 1700.0, NULL, 2000, NULL, 2);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(26, 1, '2019-04-15','cow', 'H', NULL, 1750, '2020-06-20', 2000, NULL, 2);
+VALUES(26, 1, '2019-04-15','cow', 'H', NULL, 1750.0, '2020-06-20', 2000, NULL, 2);
 INSERT INTO livestock(livestock_id, owner_id, born_date, sub_type, health_status, notes, weight, market_date, goal_sale_price, sale_price, location)
-VALUES(30, 1, '2017-05-13','cow', 'H', NULL, 1600, NULL , 2000, NULL, 2);
+VALUES(30, 1, '2017-05-13','cow', 'H', NULL, 1650.0, NULL , 2000, NULL, 2);
 
 
 CREATE TABLE Calves(
@@ -105,6 +116,7 @@ CREATE TABLE Vaccinations(
 );
 ALTER TABLE Vaccinations MODIFY vac_type VARCHAR(244);
 ALTER TABLE Vaccinations MODIFY date_given DATE;
+DELETE FROM Vaccinations WHERE animal_id = 77;
 
 INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
 VALUES(22, 77, 'IBR', '2019-11-12');
@@ -122,6 +134,22 @@ INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
 VALUES(28, 77, 'CLOST', '2019-11-12');
 INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
 VALUES(29, 77, 'BRUC', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(30, 68, 'IBR', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(31, 68, 'BVD', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(32, 68, 'BRSV', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(33, 68, 'P13', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(34, 68, 'LEPT', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(35, 68, 'VIBR', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(36, 68, 'CLOST', '2019-11-12');
+INSERT INTO Vaccinations(vacc_id, animal_id, vac_type, date_given)
+VALUES(37, 68, 'BRUC', '2019-11-12');
 
 CREATE TABLE Medication(
 	livestock_id INT NOT NULL,
@@ -138,7 +166,7 @@ INSERT INTO Medication(livestock_id, med_id, medication_name, start_date, end_da
 VALUES(99, 41, 'Penicillin', '2019-11-07', '2019-11-30', '48 hrs');
 
 CREATE TABLE VetVisit(
-	livestock_id INT NOT NULL,
+	livestock_id INT NULL,
     visit_date DATETIME NOT NULL, 
     visit_id INT NOT NULL AUTO_INCREMENT UNIQUE,
     vet_name VARCHAR(244), 
@@ -150,9 +178,9 @@ CREATE TABLE VetVisit(
 );
 
 INSERT INTO VetVisit(livestock_id, visit_date, visit_id, vet_name, cost, reason, notes)
-VALUES(77, '2019-11-12', 12, 'Will Smith', '38950', 'vaccinatins', 'Annual');
+VALUES(NULL, '2019-11-12', 12, 'Will Smith', '389.50', 'calf vaccinatins', 'Annual');
 INSERT INTO VetVisit(livestock_id, visit_date, visit_id, vet_name, cost, reason, notes)
-VALUES(99, '2019-11-07', 04, 'Will Smith', '11050', 'checkup', 'Unexpected');
+VALUES(99, '2019-11-07', 04, 'Will Smith', '110.50', 'checkup', 'Unexpected');
 
 SELECT * FROM bull_calf_view;
 SELECT * FROM calves_view;
