@@ -122,7 +122,6 @@ def add_Medication():
         start_date = request.form['input_start_date']
         end_date = request.form['input_end_date']
         med_interval = request.form['input_medication_interval']
-        print(livestockID, medicationName, start_date, end_date, med_interval)
         con = mysql.connect()
         cursor = con.cursor()
         cursor.callproc('Insert_new_Medication_Record',(livestockID, medicationName, start_date, end_date, med_interval))
@@ -130,6 +129,36 @@ def add_Medication():
         cursor.close()
     return json.dumps({'message':'record created successfully !'})
 
+@app.route('/add_Vaccination', methods=['POST'])
+def add_Vaccination():
+    if request.method == 'POST':
+        livestockID = request.form['livestockID']
+        vaccinType = request.form['input_vaccin_type']
+        vaccinDate = request.form['input_date_given']
+        print(livestockID, vaccinType, vaccinDate)
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_Vaccination_Record', (livestockID, vaccinType, vaccinDate))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/add_vetVisit', methods=['POST'])
+def add_vetVisit():
+    if request.method == 'POST':
+        livestockID = request.form['livestockID']
+        visitDate =  request.form['input_visit_date']
+        vetName =  request.form['input_vet_name']
+        cost = request.form['input_visit_cost']
+        reason = request.form['input_visit_reason']
+        notes =  request.form['input_visit_notes']
+        print(livestockID, visitDate, vetName, cost, reason, notes)
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_VetVist_Record',(livestockID, visitDate, vetName, cost, reason, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
 @app.route('/viewPastures')
 def viewPastures():
     return render_template('viewPastures.html')

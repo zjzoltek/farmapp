@@ -74,24 +74,28 @@
             <input
               type="text"
               name="input_medication_name"
+              id="input_medication_name"
               placeholder="Enter Medication Name"
               size="30"
             />
             <input
               type="text"
               name="input_start_date"
+              id="input_start_date"
               placeholder="Enter Start Date (YYYY-MM-DD)"
               size="30"
             />
             <input
               type="text"
               name="input_end_date"
+              id="input_end_date"
               placeholder="Enter End Date (YYYY-MM-DD)"
               size="30"
             />
             <input
               type="text"
               name="input_medication_interval"
+              id="input_medication_interval"
               placeholder="Enter Intervals"
               size="30"
             />
@@ -136,6 +140,39 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Vaccination Record Below:</p>
+          <form id="newVaccinationRecord">
+            <input
+              type="text"
+              name="input_vaccin_type"
+              id="input_vaccin_type"
+              placeholder="Enter Vaccination Type"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_date_given"
+              id="input_date_given"
+              placeholder="Enter Date Given (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
+            />
+            <button
+              id="addVaccinationButton"
+              class="btn btn-primary btn-xs"
+              type="button"
+            >
+              Add
+            </button>
+          </form>
+        </div>
       </div>
       <br />
       <div>
@@ -176,22 +213,51 @@
         </table>
         <br />
         <div>
-          <p>Add New Vaccination Record Below:</p>
-          <form id="newVaccinationRecord">
+          <p>Add New Vet Visit Record Below:</p>
+          <form id="newVetVisitRecord">
             <input
               type="text"
-              name="input_vaccin_type"
-              placeholder="Enter Vaccination Type"
+              name="input_vet_name"
+              id="input_vet_name"
+              placeholder="Enter Vet's Name"
               size="30"
             />
             <input
               type="text"
-              name="input_date_given"
-              placeholder="Enter Date Given (YYYY-MM-DD)"
+              name="input_visit_date"
+              id="input_visit_date"
+              placeholder="Enter Date of Visit (YYYY-MM-DD)"
               size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_cost"
+              id="input_visit_cost"
+              placeholder="Enter Cost"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_reason"
+              id="input_visit_reason"
+              placeholder="Enter Reason for Visit"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_visit_notes"
+              id="input_visit_notes"
+              placeholder="Enter Any Notes"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
             />
             <button
-              id="addVaccinationButton"
+              id="addVetVisitButton"
               class="btn btn-primary btn-xs"
               type="button"
             >
