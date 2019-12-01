@@ -88,5 +88,20 @@ def validateLogin():
 def userHome():
     return render_template('userHome.html')
 
+@app.route('/viewLivestock')
+def viewLivestock():
+    return render_template('viewLivestock.html')
+
+@app.route('/showAllLivestockView')
+def showAllLivestockView():
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
+    data = cursor.fetchall()
+    return render_template('showAllLivestockView.html', livestockdata=data)
+
+@app.route('/viewPastures')
+def viewPastures():
+    return render_template('viewPastures.html')
 if __name__ == "__main__":
     app.run()

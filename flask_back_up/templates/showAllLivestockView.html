@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Farm App</title>
+
+    <link
+      href="../static/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="../static/css/jumbotron-narrow.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link href="../static/css/NavBar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/viewSelection.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active">
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Farm App</h3>
+      </div>
+      <div class="jumbotron">
+        <h3>Showing all livestock records</h3>
+      </div>
+      <div>
+        <table class="table">
+          <thead>
+            <td>Livestock ID</td>
+            <td>Date of Birth</td>
+            <td>Sub Type</td>
+            <td>Health Status</td>
+            <td>Weight</td>
+            <td>Location</td>
+            <td>Market Date</td>
+            <td>Goal Sale Price</td>
+            <td>Sale Price</td>
+          </thead>
+          <tbody>
+            {% for livestock in livestockdata%}
+            <tr>
+              <td>
+                {{livestock.0}}
+              </td>
+              <td>
+                {{livestock.1}}
+              </td>
+              <td>
+                {{livestock.2}}
+              </td>
+              <td>
+                {{livestock.3}}
+              </td>
+              <td>
+                {{livestock.4}}
+              </td>
+              <td>
+                {{livestock.5}}
+              </td>
+              <td>
+                {{livestock.6}}
+              </td>
+              <td>
+                {{livestock.7}}
+              </td>
+              <td>
+                {{livestock.8}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
