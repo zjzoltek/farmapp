@@ -11,7 +11,7 @@
           "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
         },
         "args" : ["."],
-        "program": "${workspaceRoot}/main.js",
+        "program": "${workspaceRoot}/src/main.js",
         "protocol": "inspector",
         "outputCapture": "std"
       }
