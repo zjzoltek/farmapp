@@ -1,8 +1,8 @@
 {
-  "name": "farmapp",
-  "productName": "farmapp",
+  "name": "farm-tracking-app-report",
+  "productName": "farm-tracking-app-report",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -18,34 +18,37 @@
   },
   "license": "MIT",
   "config": {
+    "mysql": {
+      "database": "",
+      "username": "",
+      "password": ""
+    },
+
     "forge": {
       "packagerConfig": {},
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "farmapp"
+            "name": "Farm Tracking App Report"
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "name": "@electron-forge/maker-zip"
         },
         {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
+          "name": "@electron-forge/maker-deb"
         },
         {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "name": "@electron-forge/maker-rpm"
         }
       ]
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "mysql": "^2.17.1",
+    "spectre.css": "^0.5.8"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.45",
