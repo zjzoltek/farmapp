@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Farm App</title>
+
+    <link
+      href="../static/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="../static/css/jumbotron-narrow.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link href="../static/css/NavBar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/viewSelection.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active">
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Farm App</h3>
+      </div>
+      <div class="jumbotron">
+        <h3>Showing all medical records</h3>
+      </div>
+      <div>
+        <h3>Medication records</h3>
+        <table class="table">
+          <thead>
+            <td>Medication ID</td>
+            <td>Medication Name</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Medication Intervals</td>
+          </thead>
+          <tbody>
+            {% for medication in medRecord%}
+            <tr>
+              <td>
+                {{livestock.0}}
+              </td>
+              <td>
+                {{medication.1}}
+              </td>
+              <td>
+                {{medication.2}}
+              </td>
+              <td>
+                {{medication.3}}
+              </td>
+              <td>
+                {{medication.4}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Vaccination records</h3>
+        <table class="table">
+          <thead>
+            <td>Vaccination ID</td>
+            <td>Vaccination Type</td>
+            <td>Date Given</td>
+          </thead>
+          <tbody>
+            {% for vaccin in vaccinRecord%}
+            <tr>
+              <td>
+                {{vaccin.0}}
+              </td>
+              <td>
+                {{vaccin.1}}
+              </td>
+              <td>
+                {{vaccin.2}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Vet Visit records</h3>
+        <table class="table">
+          <thead>
+            <td>Visit ID</td>
+            <td>Visit Date</td>
+            <td>Vet Name</td>
+            <td>Cost</td>
+            <td>Reason</td>
+            <td>Notes</td>
+          </thead>
+          <tbody>
+            {% for vet in vetRecord%}
+            <tr>
+              <td>
+                {{vet.0}}
+              </td>
+              <td>
+                {{vet.1}}
+              </td>
+              <td>
+                {{vet.2}}
+              </td>
+              <td>
+                {{vet.3}}
+              </td>
+              <td>
+                {{vet.4}}
+              </td>
+              <td>
+                {{vet.5}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

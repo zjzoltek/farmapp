@@ -32,6 +32,7 @@
       </div>
       <div class="jumbotron">
         <h3>Showing all livestock records</h3>
+        <p>Click the Livestock ID to view its medical record</p>
       </div>
       <div>
         <table class="table">
@@ -50,7 +51,7 @@
             {% for livestock in livestockdata%}
             <tr>
               <td>
-                {{livestock.0}}
+                <a href="showMedicalRecords/{{livestock.0}}">{{livestock.0}}</a>
               </td>
               <td>
                 {{livestock.1}}
