@@ -47,7 +47,7 @@
             {% for medication in medRecord%}
             <tr>
               <td>
-                {{livestock.0}}
+                {{medication.0}}
               </td>
               <td>
                 {{medication.1}}
@@ -65,7 +65,49 @@
             {% endfor %}
           </tbody>
         </table>
+        <br />
+        <div>
+          <p>Add New Medication Record Below:</p>
+          <form
+            name="newMidcationRecord"
+            methods="POST"
+            action="/add_Medication"
+          >
+            <input
+              type="text"
+              name="input_medication_name"
+              placeholder="Enter Medication Name"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_start_date"
+              placeholder="Enter Start Date (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_end_date"
+              placeholder="Enter End Date (YYYY-MM-DD)"
+              size="30"
+            />
+            <input
+              type="text"
+              name="input_medication_interval"
+              placeholder="Enter Intervals"
+              size="30"
+            />
+            <input
+              type="text"
+              name="livestockID"
+              style="display: none;"
+              value="{{livestockID}}"
+            />
+            <input name="submitButton" value="Submit" type="submit" />
+          </form>
+        </div>
       </div>
+      <br />
       <div>
         <h3>Vaccination records</h3>
         <table class="table">
@@ -91,6 +133,7 @@
           </tbody>
         </table>
       </div>
+      <br />
       <div>
         <h3>Vet Visit records</h3>
         <table class="table">
