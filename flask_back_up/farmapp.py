@@ -72,11 +72,11 @@ def validateLogin():
     # connect to mysql
         cursor.callproc('validateLogin',(_username,))
         data = cursor.fetchall()
-
+        print(data)
         if len(data) > 0:
-            if check_password_hash(data[0][3],_password):
+            if check_password_hash(str(data[0][8]),_password):
                 session['user'] = data[0][0]
-                return redirect('/userHome')
+                return redirect('/userHome', user_id = data[0][0])
             else:
                 return render_template('error.html',error = 'Wrong Email address or Password.')
         else:
