@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, json
+from flask import Flask, render_template, request, json, redirect, session
 from flaskext.mysql import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 import yaml
@@ -15,6 +15,7 @@ app.config['MYSQL_DATABASE_USER'] = cfg['mysql']['user']
 app.config['MYSQL_DATABASE_PASSWORD'] = cfg['mysql']['passwd']
 app.config['MYSQL_DATABASE_DB'] = cfg['mysql']['db']
 app.config['MYSQL_DATABASE_HOST'] = cfg['mysql']['host']
+app.secret_key = cfg['other']['secret_key']
 mysql.init_app(app)
 
 
@@ -28,27 +29,31 @@ def showSignUp():
 
 @app.route('/signUp', methods=['POST'])
 def signUp():
+    conn = mysql.connect()
+    cursor = conn.cursor()
     try:
-        _name = request.form['inputName']
+        _first_name = request.form['inputFirstName']
+        _last_name = request.form['inputLastName']
         _email = request.form['inputEmail']
+        _address = request.form['inputAddress']
+        _zipcode = request.form['inputZipcode']
+        _phonenum = request.form['inputPhonenumber']
         _password = request.form['inputPassword']
 
 
-        if _name and _email and _password:
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            _hashed_password = generate_password_hash(_password)
-            cursor.callproc('createUser', (_name, _email))
+        if _first_name and _last_name and _address and _email and _password:
+            _hashed_password = generate_password_hash(str(_password))
+            cursor.callproc('createUser', (_first_name, _last_name, _email, _address, int(_zipcode), int(_phonenum),  _hashed_password))
             data = cursor.fetchall()
             if len(data) is 0:
                 conn.commit()
-                return json.dumps({'message':'User created successfully !'})
+                return redirect('/signIn')
             else:
-                return json.dumps({'error':str(data[0])})
+                return render_template('error.html', error = str(data[0]))
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
     except Exception as e:
-        return json.dumps({'error':str(e)})
+        return render_template('error.html', error = str(e))
     finally:
         cursor.close() 
         conn.close()
@@ -59,17 +64,17 @@ def showSignin():
 
 @app.route('/validateLogin', methods=['POST'])
 def validateLogin():
+    conn = mysql.connect()
+    cursor = conn.cursor()
     try:
         _username = request.form['inputEmail']
         _password = request.form['inputPassword']
     # connect to mysql
-        con = mysql.connect()
-        cursor = con.cursor()
-        cursor.callproc('sp_validateLogin',(_username,))
+        cursor.callproc('validateLogin',(_username,))
         data = cursor.fetchall()
 
         if len(data) > 0:
-            if check_password_hash(str(data[0][3]),_password):
+            if check_password_hash(data[0][3],_password):
                 session['user'] = data[0][0]
                 return redirect('/userHome')
             else:
@@ -82,11 +87,19 @@ def validateLogin():
         return render_template('error.html',error = str(e))
     finally:
         cursor.close()
-        con.close()
+        conn.close()
 
 @app.route('/userHome')
 def userHome():
-    return render_template('userHome.html')
+    if session.get('user'):
+        return render_template('userHome.html')
+    else:
+        return render_template('error.html', error = 'Unauthorized Access')
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect('/')
 
 @app.route('/viewLivestock')
 def viewLivestock():

@@ -5,3 +5,4 @@ mysql:
     db: write-math
 other:
     use_anonymous: yes
+    secret_key: 'a secret for creating session data'

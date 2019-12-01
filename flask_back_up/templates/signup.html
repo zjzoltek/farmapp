@@ -32,13 +32,23 @@
       <div class="jumbotron">
         <h1>Farm App</h1>
         <form class="form-signin">
-          <label for="inputName" class="sr-only">Name</label>
+          <label for="inputFirstName" class="sr-only">Name</label>
           <input
             type="name"
-            name="inputName"
-            id="inputName"
+            name="inputFirstName"
+            id="inputFirstName"
             class="form-control"
-            placeholder="Name"
+            placeholder="First Name"
+            required
+            autofocus
+          />
+          <label for="inputLastName" class="sr-only">Name</label>
+          <input
+            type="name"
+            name="inputLastName"
+            id="inputLastName"
+            class="form-control"
+            placeholder="Last Name"
             required
             autofocus
           />
@@ -52,6 +62,36 @@
             required
             autofocus
           />
+          <label for="inputAddress" class="sr-only">Password</label>
+          <input
+            type="address"
+            name="inputAddress"
+            id="inputAddress"
+            class="form-control"
+            placeholder="Address"
+            required
+            autofocus
+          />
+          <label for="inputZipcode" class="sr-only">Password</label>
+          <input
+            type="Zipcode"
+            name="inputZipcode"
+            id="inputZipcode"
+            class="form-control"
+            placeholder="Zipcode"
+            required
+            autofocus
+          />
+          <label for="inputPhonenumber" class="sr-only">Password</label>
+          <input
+            type="Phonenumber"
+            name="inputPhonenumber"
+            id="inputPhonenumber"
+            class="form-control"
+            placeholder="Phone Number"
+            required
+            autofocus
+          />
           <label for="inputPassword" class="sr-only">Password</label>
           <input
             type="password"
@@ -61,7 +101,6 @@
             placeholder="Password"
             required
           />
-
           <button
             id="btnSignUp"
             class="btn btn-lg btn-primary btn-block"

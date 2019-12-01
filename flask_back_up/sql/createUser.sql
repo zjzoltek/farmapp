@@ -1,28 +1,51 @@
-USING farmappdb;
+
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser`(
-    IN p_name VARCHAR(20),
-    IN p_username VARCHAR(20),
-    IN p_password VARCHAR(20)
+    IN p_first_name VARCHAR(30),
+    IN p_last_name VARCHAR(30),
+    IN p_email VARCHAR(244),
+    IN p_address VARCHAR(244),
+    IN p_zip_code INT,
+    IN p_phone_num INT,
+    IN passwd VARCHAR(44)
 )
 BEGIN
-    if ( select exists (select 1 from tbl_user where user_username = p_username) ) THEN
+    if ( select exists (select 1 from users where email = p_email) ) THEN
      
         select 'Username Exists !!';
      
     ELSE
-     
-        insert into tbl_user
+        insert into users
         (
-            user_name,
-            user_username,
-            user_password
+            user_type,
+            first_name,
+            last_name,
+            address,
+            zip_code,
+            phone_num,
+            email
         )
         values
         (
-            p_name,
-            p_username,
-            p_password
+            "reg_usr",
+            p_first_name,
+            p_last_name,
+            p_address,
+            p_zip_code,
+            p_phone_num,
+            p_email
+        );
+        select @us:=user_id from users where email = p_email;
+
+        insert into passwd
+        (
+            user_id,
+            passwd
+        )
+        values
+        (
+            us,
+            p_passwd
         );
      
     END IF;
