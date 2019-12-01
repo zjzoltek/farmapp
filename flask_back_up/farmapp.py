@@ -74,7 +74,7 @@ def validateLogin():
         data = cursor.fetchall()
 
         if len(data) > 0:
-            if check_password_hash(data[0][3],_password):
+            if check_password_hash(str(data[0][8]),_password):
                 session['user'] = data[0][0]
                 return redirect('/userHome')
             else:
@@ -105,10 +105,10 @@ def logout():
 def showAllLivestockView():
     con = mysql.connect()
     cursor = con.cursor()
-    cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
+    cursor.callproc('Get_All_Livestock',[session.get('user')])
     data = cursor.fetchall()
     cursor.close()
-    return render_template('showAllLivestockView.html', livestockdata=data)
+    return render_template('showAllLivestockView.html', livestockdata=data, ownerID=session.get('user'))
 
 @app.route('/add_Livestock', methods=['POST'])
 def add_Livestock():
