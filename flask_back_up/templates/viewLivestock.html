@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Farm App</title>
+
+    <link
+      href="../static/css/bootstrap.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      href="../static/css/jumbotron-narrow.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link href="../static/css/NavBar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/viewSelection.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active">
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Farm App</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h3>What would to do?</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <a id="viewOptionsLable" href="showAllLivestockView"
+                  >-> Show me all my livestock records</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a id="viewOptionsLable" href="addLivestockView"
+                  >-> Add a new livestock record</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a id="viewOptionsLable" href="updateLivestockView"
+                  >-> Update a livestock record</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a id="viewOptionsLable" href="deleteLivestockView"
+                  >-> Delete a livestock record</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <footer class="footer">
+        <p>UMKC 2019 Fall CS470</p>
+      </footer>
+    </div>
+  </body>
+</html>
