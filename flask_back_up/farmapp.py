@@ -211,7 +211,6 @@ def add_vetVisit():
         cost = request.form['input_visit_cost']
         reason = request.form['input_visit_reason']
         notes =  request.form['input_visit_notes']
-        print(livestockID, visitDate, vetName, cost, reason, notes)
         con = mysql.connect()
         cursor = con.cursor()
         cursor.callproc('Insert_new_VetVist_Record',(livestockID, visitDate, vetName, cost, reason, notes))
@@ -231,7 +230,68 @@ def delete_vetRecord(vetID):
 
 @app.route('/viewPastures')
 def viewPastures():
-    return render_template('viewPastures.html')
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_all_pastures',[session.get('user')])
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('showAllPastures.html', pastures=data, ownerID=session.get('user'))
+
+@app.route('/add_Pasture', methods=['POST'])
+def add_Pasture():
+    if request.method == 'POST':
+        nickname = request.form['input_nickname']
+        ownerID = request.form['ownerID']
+        notes = request.form['input_notes']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_pasture',(nickname, ownerID, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_pasture/<string:pastureID>', methods=['POST'])
+def delete_pasture(pastureID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_pasture',[pastureID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/showMaintenanceRecords/<string:id>', methods=['GET', 'POST'])
+def showMaintenanceRecords(id):
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_all_maintenance_items',[id])
+    mintenanceRecords = cursor.fetchall()
+    cursor.close()
+    return render_template('showMaintenanceRecords.html', pastureID = id, maintRecords = mintenanceRecords)
+
+@app.route('/add_maintenanceitem', methods=['POST'])
+def add_maintenanceitem():
+    if request.method == 'POST':
+        mtype = request.form['input_type']
+        location = request.form['pastureID']
+        cost = request.form['input_cost']
+        notes = request.form['input_notes']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('insert_new_maintenance_item',(location, mtype, cost, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_maintenance/<string:itemID>', methods=['POST'])
+def delete_maintenance(itemID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_maintenance_item',[itemID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
 
 if __name__ == "__main__":
     app.run()

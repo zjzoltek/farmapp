@@ -31,7 +31,7 @@ INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
 VALUES('South Pasture', 2, 1, 'For Cattle');
 
 CREATE TABLE Pasture_Maintenance(
-	maintenance_id INT NOT NULL UNIQUE, 
+	maintenance_id INT NOT NULL AUTO_INCREMENT UNIQUE, 
     location INT NOT NULL, 
     maintenance_type INT NOT NULL, 
     cost REAL(9,2), 
