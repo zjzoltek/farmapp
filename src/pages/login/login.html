@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre-exp.css">
+    <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre.css">
+    <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre-icons.css">
+</head>
+
+<body>
+    <div class="empty" style="height: 100%;">
+        <div class="empty-icon">
+            <i class="icon icon-emoji icon-3x"></i>
+        </div>
+        <p class="empty-title h3">Farm Tracking App Report</p>
+        <p class="empty-subtitle" id="form-error">Login using your email and password to get started</p>
+        <div class="empty-action">
+            <form class="form-horizontal" id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" type="email" id="email" placeholder="example@example.com">
+                    <p class="form-input-hint" id="email-hint"></p>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-input" type="password" id="password">
+                    <p class="form-input-hint" id="password-hint"></p>
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <button type=button class="btn btn-primary" id="login-btn">Login</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+<script src="login.js"></script>
+</html>
