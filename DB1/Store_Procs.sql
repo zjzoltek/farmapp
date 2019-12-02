@@ -48,7 +48,7 @@ create procedure Insert_new_pasture(
     IN param_notes TEXT)
 BEGIN
 	IF param_nickname = '' THEN SET param_nickname = 'No nickname'; END iF;
-    INSERT INTO pastures(nickname, owner_id, notes) VALUES( param_nickname, owner_id, param_notes);
+    INSERT INTO pastures(nickname, owner_id, notes) VALUES( param_nickname, param_owner_id, param_notes);
 END//
 
 DELIMITER //
@@ -64,7 +64,7 @@ create procedure Get_all_pastures(
 	IN param_ownerID INT
 )
 BEGIN
-	SELECT nickname, pasture_id FROM pastures WHERE owner_id =  param_ownerID;
+	SELECT nickname, pasture_id, notes FROM pastures WHERE owner_id =  param_ownerID;
 END //
 
 DELIMITER //    
@@ -80,11 +80,18 @@ BEGIN
 END//
 
 DELIMITER //
+create procedure Delete_maintenance_item(
+IN param_Id INT)
+BEGIN
+	DELETE FROM pasture_maintenance WHERE maintenance_id = param_Id;
+END//
+
+DELIMITER //
 create procedure Get_all_maintenance_items(
 	IN param_Location INT
 )
 BEGIN
-	SELECT maintenance_type, cost, notes FROM pasture_maintenance WHERE location = param_Location;
+	SELECT maintenance_id, maintenance_type, cost, notes FROM pasture_maintenance WHERE location = param_Location;
 END //
 
 DELIMITER //

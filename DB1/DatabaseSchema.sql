@@ -13,7 +13,7 @@ CREATE TABLE Users(
     PRIMARY KEY (user_id)
 );
 
-INSERT INTO Users(user_id, user_type, first_name, last_name, address, zip_code, phone_num, email)
+INSERT INTO Users(user_id, user_type, first_name, last_name, address, zip_code, phone_num, email, passwd_hash)
 VALUES(1, 'reg_usr', 'Bob', 'Dunlap', '1239 E 117th, FarmVille MO', 64004, 816-666-7777, 'bobsFarm@email.com', 'pbkdf2:sha256:150000$EoL3AeBB$fa87532fd3358ed3c2a6168f5ef75352525d86a3edc46523bdf520a638056737');
 
 CREATE TABLE Pastures(
@@ -31,7 +31,7 @@ INSERT INTO Pastures(nickname, pasture_id, owner_id, notes)
 VALUES('South Pasture', 2, 1, 'For Cattle');
 
 CREATE TABLE Pasture_Maintenance(
-	maintenance_id INT NOT NULL UNIQUE, 
+	maintenance_id INT NOT NULL AUTO_INCREMENT UNIQUE, 
     location INT NOT NULL, 
     maintenance_type INT NOT NULL, 
     cost REAL(9,2), 

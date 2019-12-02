@@ -102,13 +102,33 @@ def logout():
 
 @app.route('/showAllLivestockView')
 def showAllLivestockView():
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_All_Livestock',[session.get('user')])
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('showAllLivestockView.html', livestockdata=data, ownerID=session.get('user'))
+
+@app.route('/add_Livestock', methods=['POST'])
+def add_Livestock():
+    if request.method == 'POST':
+        ownerID = request.form['OwnerID']
+        bornDate = request.form['input_born_date']
+        subType = request.form['input_sub_type']
+        health = request.form['input_health']
+        notes = request.form['input_notes']
+        weight = request.form['input_weight']
+        market_date = request.form['input_market_date']
+        goal = request.form['input_goal_price']
+        sale = request.form['input_sale_price']
+        location = request.form['input_location']
     if session.get('user'):
         con = mysql.connect()
         cursor = con.cursor()
         cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
         data = cursor.fetchall()
         cursor.close()
-        return render_template('showAllLivestockView.html', livestockdata=data)
+        return render_template('showAllLivestockView.html', livestockdata=data, ownerID=session.get('user'))
     else:
         return render_template('error.html', error = 'Unauthorized Access')
         
@@ -227,6 +247,7 @@ def delete_vaccineRecord(vaccID):
 
 @app.route('/add_vetVisit', methods=['POST'])
 def add_vetVisit():
+
     if session.get('user'):
         if request.method == 'POST':
             livestockID = request.form['livestockID']
@@ -260,10 +281,70 @@ def delete_vetRecord(vetID):
 
 @app.route('/viewPastures')
 def viewPastures():
-    if session.get('user'):
-        return render_template('viewPastures.html')
-    else:
-        return render_template('error.html', error = 'Unauthorized Access')
+
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_all_pastures',[session.get('user')])
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('showAllPastures.html', pastures=data, ownerID=session.get('user'))
+
+@app.route('/add_Pasture', methods=['POST'])
+def add_Pasture():
+    if request.method == 'POST':
+        nickname = request.form['input_nickname']
+        ownerID = request.form['ownerID']
+        notes = request.form['input_notes']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Insert_new_pasture',(nickname, ownerID, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_pasture/<string:pastureID>', methods=['POST'])
+def delete_pasture(pastureID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_pasture',[pastureID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/showMaintenanceRecords/<string:id>', methods=['GET', 'POST'])
+def showMaintenanceRecords(id):
+    con = mysql.connect()
+    cursor = con.cursor()
+    cursor.callproc('Get_all_maintenance_items',[id])
+    mintenanceRecords = cursor.fetchall()
+    cursor.close()
+    return render_template('showMaintenanceRecords.html', pastureID = id, maintRecords = mintenanceRecords)
+
+@app.route('/add_maintenanceitem', methods=['POST'])
+def add_maintenanceitem():
+    if request.method == 'POST':
+        mtype = request.form['input_type']
+        location = request.form['pastureID']
+        cost = request.form['input_cost']
+        notes = request.form['input_notes']
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('insert_new_maintenance_item',(location, mtype, cost, notes))
+        con.commit()
+        con.close()
+    return json.dumps({'message':'record created successfully !'})
+
+@app.route('/delete_maintenance/<string:itemID>', methods=['POST'])
+def delete_maintenance(itemID):
+    if request.method == 'POST':
+        con = mysql.connect()
+        cursor = con.cursor()
+        cursor.callproc('Delete_maintenance_item',[itemID])
+        con.commit()
+        cursor.close()
+    return json.dumps({'message':'record created successfully !'})
+
 
 if __name__ == "__main__":
     app.run()
