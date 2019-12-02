@@ -11,7 +11,7 @@ CREATE TABLE Users(
     zip_code INT,
     phone_num varchar(10),
     email VARCHAR(244),
-    password varchar(256),
+    password_hash varchar(256),
     PRIMARY KEY (user_id)
 );
 

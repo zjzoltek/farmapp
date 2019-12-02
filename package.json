@@ -3,7 +3,7 @@
   "productName": "farm-tracking-app-report",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -19,13 +19,12 @@
   "license": "MIT",
   "config": {
     "mysql": {
-      "database": "",
-      "username": "",
-      "password": "",
+      "database": "livestockmanagementschema",
+      "username": "root",
+      "password": "password",
       "host": "localhost",
-      "port": "3306",
+      "port": "3306"
     },
-
     "forge": {
       "packagerConfig": {},
       "makers": [
@@ -49,6 +48,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "minimist": "^1.2.0",
     "mysql": "^2.17.1",
     "spectre.css": "^0.5.8"
   },
@@ -58,6 +58,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.45",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.45",
     "@electron-forge/maker-zip": "^6.0.0-beta.45",
-    "electron": "^6.0.10"
+    "electron": "^6.0.10",
+    "electron-reload": "^1.5.0"
   }
 }
