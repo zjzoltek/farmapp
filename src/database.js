@@ -196,15 +196,6 @@ class Database {
         console.info("Postnormalization:", Object.keys(results[0]));
     }
 
-    async getCountOfTable(table) {
-        console.info("Getting the number of rows in table", table);
-        const sql = format("select COUNT(*) from ??", table);
-        const {
-            results
-        } = await this.performQuery(sql);
-        return results[0]["COUNT(*)"];
-    }
-
     async insertEntity(entity, table) {
         console.info("Attempting to insert data into DB");
         console.info("Entity", entity);
