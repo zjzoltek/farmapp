@@ -8,8 +8,6 @@
 </head>
 
 <body>
-
-
     <div class="d-none" id="loading-content">
         <div class="container p-absolute" style="top: 40%;">
             <h2 class="text-center text-primary">Getting things ready for you . . .</h2>
@@ -58,13 +56,13 @@
                 </li>
             </ul>
 
-            <farmapp-tab template="tab-template" data-table="Livestock" id="livestock" show=true></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="Vaccinations" id="vaccinations"></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="VetVisit" id="vetvisit"></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="Pastures" id="pastures"></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="Pasture_Maintenance" id="pasture-maintenance"></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="Medication" id="medical"></farmapp-tab>
-            <farmapp-tab template="tab-template" data-table="Calves" id="calves"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="livestock" id="livestock" show=true></farmapp-tab>
+            <farmapp-tab template="tab-template" route="vaccinations" id="vaccinations"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="vetVisits" id="vetvisit"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="pastures" id="pastures"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="pastureMaintenance" id="pasture-maintenance"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="medication" id="medical"></farmapp-tab>
+            <farmapp-tab template="tab-template" route="calves" id="calves"></farmapp-tab>
         </div>
     </div>
 </body>
@@ -87,22 +85,22 @@
             </nav>
 
             <div class="panel-body">
-                <farmapp-account-tile template="account-tile-template" id="account-email-tile" tile-title="Email"
+                <farmapp-account-tile template="account-tile-template" id="account-email-tile" title="Email"
                     >
                 </farmapp-account-tile>
 
-                <farmapp-account-tile template="account-tile-template" id="account-phone-tile" tile-title="Phone"
+                <farmapp-account-tile template="account-tile-template" id="account-phone-tile" title="Phone" editable=true
                     >
                 </farmapp-account-tile>
 
-                <farmapp-account-tile template="account-tile-template" id="account-address-tile" tile-title="Address"
+                <farmapp-account-tile template="account-tile-template" id="account-address-tile" title="Address"
                     >
                 </farmapp-account-tile>
             </div>
 
-            <!-- <div class="panel-footer">
+            <div class="panel-footer" id="account-modal-save-button">
                 <button class="btn btn-primary btn-block">Save</button>
-            </div> -->
+            </div>
         </div>
     </div>
 
@@ -113,7 +111,7 @@
     <span slot="cancel-button"></span>
 </farmapp-modal>
 
-<farmapp-modal template="modal-template" id="signout-modal">
+<farmapp-modal template="modal-template" id="signout-modal" onok="onSignoutOk">
     <span slot="modal-title">Are you sure you want to signout?</span>
     <span slot="ok-button-text">Yes, I am</span>
     <span slot="cancel-button-text">On second thought . . .</span>
@@ -123,11 +121,12 @@
 <template id="account-tile-template">
     <div class="tile tile-centered my-2">
         <div class="tile-content">
-            <div class="tile-title text-bold" id="tile-title">
-                <slot name="detail-name">Name</slot>
+            <div class="tile-title text-bold">
+                <span id="tile-title"></span>
             </div>
-            <div class="tile-subtitle" id="tile-value">
-                <slot name="detail-value">Value</slot>
+            <div class="tile-subtitle">
+                <span id="tile-value"></span>
+                <input type=text class="d-none" id="tile-value-input">
             </div>
         </div>
 
@@ -171,7 +170,7 @@
 
 <template id="tab-template">
     <div id="content" class="d-none">
-        <table class="table table-striped table-hover table-scroll" id="table">
+        <table class="table table-striped table-hover table-scroll" style="width:100%; position: relative; top: 0; bottom: 0; left: 0; right: 0;" id="table">
             <thead id="thead">
             </thead>
 

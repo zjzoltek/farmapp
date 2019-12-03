@@ -1,5 +1,6 @@
 const { ipcRenderer } = require("electron");
 const channels = require("../../../channels");
+const { dbRequest } = require("../utility");
 
 class FarmAppHtmlElement extends HTMLElement {
     constructor() {
@@ -41,16 +42,24 @@ class FarmAppHtmlElement extends HTMLElement {
         }
     }
 
-    async _makeDbRequest(table, pageNumber) {
+    _generateRequestNonce() {
+        return ~~(Math.random() * 1000);
+    }
+
+    async pagedDbRequest(route, pageNumber) {
         return new Promise((resolve) => {
-            const nonce = ~~(Math.random() * 1000);
+            const nonce = this._generateRequestNonce();
             ipcRenderer.once(`${nonce}`, (_, data) => {
                 console.info("Resolving DB request");
                 resolve(data);
             });
     
-            ipcRenderer.send(channels.dbRequest, table, nonce, pageNumber);
+            ipcRenderer.send(channels.pagedDbRequest, route, nonce, pageNumber);
         });
+    }
+
+    async dbRequest(route, params) {
+        return dbRequest(route, params);
     }
 
     init() {

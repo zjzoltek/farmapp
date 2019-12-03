@@ -1,6 +1,6 @@
 const {
     FarmAppHtmlElement
-} = require("./FarmAppHtmlElement");
+} = require("./farm-app-html-element");
 
 class Tab extends FarmAppHtmlElement {
     constructor() {
@@ -21,7 +21,7 @@ class Tab extends FarmAppHtmlElement {
         }
     }
 
-    populatePagination(currentPage) {
+    _populatePagination(currentPage) {
         const paginationContainer = this.shadowRoot.getElementById("pagination");
 
         while (paginationContainer.firstChild) paginationContainer.firstChild.remove();
@@ -46,14 +46,16 @@ class Tab extends FarmAppHtmlElement {
             });
 
             li.addEventListener("click", (e) => {
-                this.fillTabData(e.currentTarget.firstChild.innerText);
+                this._fillTabData(e.currentTarget.firstChild.innerText);
             });
 
             paginationContainer.appendChild(li);
         }
     }
 
-    populateTable(data) {
+    _populateTable(data) {
+        if (!data || data.length === 0) return;
+        
         const head = this.shadowRoot.getElementById("thead");
         const body = this.shadowRoot.getElementById("tbody");
 
@@ -85,26 +87,25 @@ class Tab extends FarmAppHtmlElement {
         }
     }
 
-    async fillTabData(pageNumber) {
-        const table = this.getAttribute("data-table");
-        const data = await this._makeDbRequest(table, pageNumber);
-        this.maxNumberOfPages = data.pages;
-        this.populatePagination(pageNumber);
-        this.populateTable(data.results);
+    async _fillTabData(pageNumber) {
+        const route = this.getAttribute("route");
+        const results = await this.pagedDbRequest(route, pageNumber);
+        this.maxNumberOfPages = results.pages;
+        this._populatePagination(pageNumber);
+        this._populateTable(results.data);
+    }
+
+    set route(_) {
+        this._fillTabData(1);
     }
 
     async attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
-
-        if (name == "show") {
-            this.show = Boolean(newValue);
-        } else if (name == "data-table") {
-            await this.fillTabData(1);
-        }
+        this[name] = newValue;
     }
 
     static get observedAttributes() {
-        return ["show", "data-table"];
+        return ["show", "route"];
     }
 }
 

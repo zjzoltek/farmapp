@@ -1,3 +1,3 @@
-require("./Modal");
-require("./AccountTile");
-require("./Tab");
+require("./modal");
+require("./account-tile");
+require("./tab");

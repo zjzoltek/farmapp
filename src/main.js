@@ -15,7 +15,6 @@ const assert = require("assert");
 const path = require("path");
 const minimist = require("minimist");
 const channels = require("./channels");
-const crypto = require("crypto");
 
 // To stop app from launching multiple times when installing the application via Squirrel.Windows
 if (require('electron-squirrel-startup')) return app.quit();
@@ -47,9 +46,10 @@ global.farmApp = {
     user: null
 };
 
-function hash(data) {
+function sha256Hash(string) {
+    const crypto = require("crypto");
     const hasher = crypto.createHash("sha256");
-    return hasher.update(data).digest("hex");
+    return hasher.update(string).digest("hex");
 }
 
 function setupIpcMainMessageHandlers() {
@@ -58,13 +58,24 @@ function setupIpcMainMessageHandlers() {
         main();
     });
 
-    ipcMain.on(channels.dbRequest, async (e, table, nonce, page) => {
-        console.info("DB request received:", table);
+    ipcMain.on(channels.dbRequest, async (e, nonce, route, params) => {
+        console.info("Regular DB request received");
+        console.info("Params:", params);
+        console.info("Route:", route);
 
-        const results = await global.farmApp.farmAppDatabase.getEntities({
+        const results = await global.farmApp.farmAppDatabase[route](params);
+
+        e.reply(`${nonce}`, results);
+    });
+
+    ipcMain.on(channels.pagedDbRequest, async (e, route, nonce, page) => {
+        console.info("Paged DB request received:", route);
+
+        const results = await global.farmApp.farmAppDatabase.performPagedQuery({
             number: global.farmApp.maximumItemsPerPage,
             offset: (page - 1) * global.farmApp.maximumItemsPerPage,
-            table
+            user: global.farmApp.user,
+            route
         });
 
         e.reply(`${nonce}`, results);
@@ -79,7 +90,7 @@ function setupIpcMainMessageHandlers() {
         } = await global.farmApp.farmAppDatabase.getUserByEmail(credentials.email);
 
         const user = results[0];
-        const hashedPassword = hash(credentials.password);
+        const hashedPassword = sha256Hash(credentials.password);
 
         if (!user) {
             e.reply(channels.error, "Invalid email and password combination");
@@ -98,6 +109,28 @@ function setupIpcMainMessageHandlers() {
         closeAllWindows("login");
     });
 
+    ipcMain.on(channels.signup, async (e, user) => {
+        console.info("Attempting to sign user up:", user.email);
+        const {
+            results
+        } = await global.farmApp.farmAppDatabase.getUserByEmail(user.email);
+
+        if (results[0]) {
+            console.info("User already exists. Cannot signup");
+            e.reply(channels.error, "Email already reigstered");
+        } else {
+            console.info("User does not exist. Hashing pass and inserting them into the DB");
+            const hashedPassword = sha256Hash(user.password_hash);
+            await global.farmApp.farmAppDatabase.insertEntity({
+                ...user,
+                password_hash: hashedPassword
+            }, "users");
+
+            console.info("Setting current user to user that we just inserted");
+            global.farmApp.user = (await global.farmApp.farmAppDatabase.getUserByEmail(user.email)).results[0];
+            openIndexWindow();
+        }
+    });
 }
 
 function setupDatabase() {

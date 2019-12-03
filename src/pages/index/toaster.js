@@ -59,5 +59,5 @@ class Toaster {
     }
   }
   
-  module.exports = Toaster;
+  module.exports = { Toaster };
   

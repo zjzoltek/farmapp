@@ -4,6 +4,8 @@ module.exports = {
     credentials: "credentials",
     bootstrapData: "bootstrap-data",
     signout: "signout",
-    dbRequest: "db_request",
-    dbResponse: "db_response"
+    pagedDbRequest: "paged_db_request",
+    dbResponse: "db_response",
+    signup: "signup",
+    dbRequest: "db_request"
 };
