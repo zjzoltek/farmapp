@@ -34,7 +34,7 @@ class FarmAppHtmlElement extends HTMLElement {
         return templateContent.cloneNode(true);
     }
 
-    _ensureAttributeExists(attribute) {
+    ensureAttributeExists(attribute) {
         if (!this.hasAttribute(attribute)) {
             throw Error(`No '${attribute}' attribute on ${this.tagName} element!`);
         } else {

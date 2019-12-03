@@ -8,16 +8,29 @@ class Tab extends FarmAppHtmlElement {
 
         this.init();
 
+        this.itemsContainer = this.shadowRoot.getElementById("items");
+        this.contentContainer = this.shadowRoot.getElementById("content");
+        this.subItemTemplate = this.ensureAttributeExists("subitem-template");
+
         if (this.hasAttribute("show")) {
             this.show = Boolean(this.getAttribute("show"));
         }
+
+        if (this.hasAttribute("header")) {
+            this.headerKey = this.getAttribute("header");
+        }
+    }
+
+    set header(key) {
+        this.headerKey = key;
+        this._fillTabData(1);
     }
 
     set show(show) {
         if (show) {
-            this.shadowRoot.getElementById("content").classList.remove("d-none");
+            this.contentContainer.classList.remove("d-none");
         } else {
-            this.shadowRoot.getElementById("content").classList.add("d-none");
+            this.contentContainer.classList.add("d-none");
         }
     }
 
@@ -55,35 +68,46 @@ class Tab extends FarmAppHtmlElement {
 
     _populateTable(data) {
         if (!data || data.length === 0) return;
-        
-        const head = this.shadowRoot.getElementById("thead");
-        const body = this.shadowRoot.getElementById("tbody");
 
-        while (head.firstChild) head.removeChild(head.firstChild);
-        while (body.firstChild) body.removeChild(body.firstChild);
+        const template = document.getElementById(this.subItemTemplate);
+        const templateContent = template.content;
 
-        const headRow = document.createElement("tr");
-
-        for (const key of Object.keys(data[0])) {
-            const headRowHeader = document.createElement("th");
-            headRowHeader.innerText = key;
-            headRow.appendChild(headRowHeader);
-        }
-
-        head.appendChild(headRow);
+        while (this.itemsContainer.firstChild) this.itemsContainer.firstChild.remove();
 
         for (const element of data) {
-            const row = document.createElement("tr");
-            row.classList.add("c-hand");
+            const panel = templateContent.cloneNode(true);
+
+            if (this.headerKey) panel.getElementById("panel-title").textContent = element[this.headerKey];
+
             for (const key in element) {
                 if (element.hasOwnProperty(key)) {
-                    const rowData = document.createElement("td");
-                    rowData.innerText = element[key];
-                    row.appendChild(rowData);
+                    const tileContainer = document.createElement("div");
+                    tileContainer.classList.add("column", "col-4");
+                   
+                    const tile = document.createElement("div");
+                    tile.classList.add("tile", "tile-centered", "my-2", "mx-2");
+
+                    const tileContent = document.createElement("div");
+                    tileContent.classList.add("tile-content");
+
+                    const tileTitle = document.createElement("div");
+                    const tileSubtitle = document.createElement("div");
+
+                    tileTitle.classList.add("tile-title", "text-bold", "mb-1");
+                    tileSubtitle.classList.add("tile-subtitle");
+
+                    tileTitle.textContent = key;
+                    tileSubtitle.textContent = element[key] || "N/A";
+
+                    tileContent.appendChild(tileTitle);
+                    tileContent.appendChild(tileSubtitle);
+                    tile.appendChild(tileContent);
+                    tileContainer.appendChild(tile);
+                    panel.getElementById("panel-body").appendChild(tileContainer);
                 }
             }
 
-            body.appendChild(row);
+            this.itemsContainer.appendChild(panel);
         }
     }
 
@@ -105,7 +129,7 @@ class Tab extends FarmAppHtmlElement {
     }
 
     static get observedAttributes() {
-        return ["show", "route"];
+        return ["show", "route", "header"];
     }
 }
 

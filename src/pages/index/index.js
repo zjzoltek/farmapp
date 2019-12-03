@@ -17,10 +17,10 @@ document.getElementById("signout-modal").shadowRoot.getElementById("ok-button").
     ipcRenderer.send(channels.signout);
 };
 
-document.getElementById("content").querySelectorAll(".tab-item").forEach((element) => {
+document.getElementById("content").querySelectorAll(".nav-item").forEach((element) => {
     element.onclick = (event) => {
         // Take the currently active tab and make it inactive
-        const activeTab = event.currentTarget.parentNode.querySelector(".tab-item.active");
+        const activeTab = event.currentTarget.parentNode.querySelector(".nav-item.active");
         activeTab.classList.remove("active");
         
         // Take the content that the just-deactivated tab guarded and hide it

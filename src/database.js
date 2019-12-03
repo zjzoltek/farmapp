@@ -20,7 +20,7 @@ class Database {
         if (!host) console.warn("'host' is undefined. Defaulting to localhost")
 
         this.connection = createConnection({
-            host: host || localhost,
+            host: host || "localhost",
             port: port || 3306,
             user: username,
             password,
@@ -36,45 +36,45 @@ class Database {
 
                 vaccinations: {
                     entityQuery: "select vaccinations.vacc_id, vaccinations.vac_type," +
-                    " vaccinations.date_given from vaccinations join livestock on livestock.livestock_id=vaccinations.animal_id" +
-                    " where livestock.owner_id = ? limit ?, ?",
+                        " vaccinations.date_given from vaccinations join livestock on livestock.livestock_id=vaccinations.animal_id" +
+                        " where livestock.owner_id = ? limit ?, ?",
                     countQuery: "select count(*) from vaccinations join livestock on livestock.livestock_id=vaccinations.animal_id" +
-                    " where livestock.owner_id = ?"
+                        " where livestock.owner_id = ?"
                 },
 
                 vetVisits: {
                     entityQuery: "select vetvisit.livestock_id, vetvisit.visit_date," +
-                    " vetvisit.visit_id, vetvisit.vet_name, vetvisit.cost, vetvisit.reason, vetvisit.notes" +
-                    " from vetvisit join livestock on livestock.livestock_id=vetvisit.livestock_id" +
-                    " where livestock.owner_id = ? limit ?, ?",
+                        " vetvisit.visit_id, vetvisit.vet_name, vetvisit.cost, vetvisit.reason, vetvisit.notes" +
+                        " from vetvisit join livestock on livestock.livestock_id=vetvisit.livestock_id" +
+                        " where livestock.owner_id = ? limit ?, ?",
                     countQuery: "select count(*)" +
-                    " from vetvisit join livestock on livestock.livestock_id=vetvisit.livestock_id" +
-                    " where livestock.owner_id = ?"
+                        " from vetvisit join livestock on livestock.livestock_id=vetvisit.livestock_id" +
+                        " where livestock.owner_id = ?"
                 },
 
                 pastureMaintenance: {
                     entityQuery: "select pasture_maintenance.maintenance_id, pasture_maintenance.location," +
-                    " pasture_maintenance.maintenance_type, pasture_maintenance.cost, pasture_maintenance.notes" +
-                    " from pasture_maintenance join pastures on pastures.pasture_id=pasture_maintenance.location where pastures.owner_id = ?" +
-                    " limit ?, ?",
+                        " pasture_maintenance.maintenance_type, pasture_maintenance.cost, pasture_maintenance.notes" +
+                        " from pasture_maintenance join pastures on pastures.pasture_id=pasture_maintenance.location where pastures.owner_id = ?" +
+                        " limit ?, ?",
                     countQuery: "select count(*) from pastures where owner_id = ?"
                 },
 
                 medication: {
                     entityQuery: "select medication.livestock_id, medication.med_id," +
-                    " medication.medication_name, medication.start_date, medication.end_date, medication.med_interval" +
-                    " from medication join livestock on livestock.livestock_id = medication.livestock_id" +
-                    " where owner_id = ? limit ?, ?",
+                        " medication.medication_name, medication.start_date, medication.end_date, medication.med_interval" +
+                        " from medication join livestock on livestock.livestock_id = medication.livestock_id" +
+                        " where owner_id = ? limit ?, ?",
                     countQuery: "select count(*)" +
-                    " from medication join livestock on livestock.livestock_id = medication.livestock_id" +
-                    " where owner_id = ?"
+                        " from medication join livestock on livestock.livestock_id = medication.livestock_id" +
+                        " where owner_id = ?"
                 },
 
                 calves: {
                     entityQuery: "select calves.calf_id, calves.cow_id, calves.sired_id," +
-                    " calves.calf_subtype, calves.vaccine_complete, calves.water_complete," +
-                    " calves.feeder_complete from calves join livestock on calves.calf_id=livestock.livestock_id where owner_id = ?" +
-                    " limit ?, ?",
+                        " calves.calf_subtype, calves.vaccine_complete, calves.water_complete," +
+                        " calves.feeder_complete from calves join livestock on calves.calf_id=livestock.livestock_id where owner_id = ?" +
+                        " limit ?, ?",
                     countQuery: "select count(*) from calves join livestock on calves.calf_id=livestock.livestock_id where owner_id = ?"
                 },
 
@@ -123,7 +123,8 @@ class Database {
         const countSql = format(this._preBakedQueries.pagedQueries[route].countQuery, user.user_id);
 
         let {
-            results: entityResults
+            results: entityResults,
+            fields
         } = await this.performQuery(sql);
 
         let {
@@ -131,7 +132,7 @@ class Database {
         } = await this.performQuery(countSql);
 
         const count = countResults[0]["count(*)"];
-        this._normalizeResultKeys(entityResults);
+        this._normalizeResultKeys(entityResults, fields);
         return {
             data: entityResults,
             pages: Math.ceil(count / number)
@@ -150,7 +151,7 @@ class Database {
 
         const keysForIdentifyingData = Object.keys(identifyingData);
         const keysForDataToUpdate = Object.keys(dataToUpdate);
-        
+
         const updatePartOfQuery = keysForDataToUpdate.map((key) => `${this.connection.escapeId(key)}=${this.connection.escape(dataToUpdate[key])}`).join(", ");
         const wherePartOfQuery = keysForIdentifyingData.map((key) => `${this.connection.escapeId(key)}=${this.connection.escape(identifyingData[key])}`).join(", ");
 
@@ -174,14 +175,26 @@ class Database {
         return this.performQuery(query);
     }
 
-    _normalizeResultKeys(results) {
+    _normalizeResultKeys(results, fields) {
         if (!results || results.length === 0) {
             console.warn("Passed in 'results' object for normalization was either undefined or empty");
             console.warn("Skipping normalization");
             return;
         }
+
         console.info("Normalizing result keys");
         console.info("Prenormalization:", Object.keys(results[0]));
+
+        if (fields && fields.length !== 0) {
+            for (const f of fields) {
+                if (f.type === 10 || f.type === 11 || f.type === 12) {
+                    for (let r of results) {
+                        r[f.name] = new Date(r[f.name]).toLocaleString();
+                    }
+                }
+            }
+        }
+
         for (let elem of results) {
             for (var key in elem) {
                 if (elem.hasOwnProperty(key)) {
@@ -204,8 +217,8 @@ class Database {
         const entityKeys = Object.keys(entity);
         const entityKeysEscaped = entityKeys.map((key) => this.connection.escapeId(key));
 
-        let query = `insert into ${this.connection.escapeId(table)}(${entityKeysEscaped.join(", ")})`
-        + `values(${entityKeys.map((key) => this.connection.escape(entity[key]))})`
+        let query = `insert into ${this.connection.escapeId(table)}(${entityKeysEscaped.join(", ")})` +
+            `values(${entityKeys.map((key) => this.connection.escape(entity[key]))})`
 
         return this.performQuery(query);
     }

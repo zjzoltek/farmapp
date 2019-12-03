@@ -16,7 +16,7 @@
     </div>
 
     <div id="main-content" class="my-2">
-        <header class="navbar">
+        <header class="navbar p-sticky" style="top: 0px;">
             <section class="navbar-section">
                 <a href="#" class="btn btn-link" id="navbar-account">Account</i></a>
                 <a href="#" class="btn btn-link" id="navbar-signout">Signout</i></a>
@@ -26,43 +26,59 @@
         </header>
 
         <div id="content" class="my-2 mx-2">
-            <ul class="tab tab-block">
-                <li class="tab-item active" activates="livestock">
-                    <a href="#">Livestock</a>
-                </li>
+            <div class="columns col-online">
+                <div class="column col-3">
+                    <ul class="nav p-sticky" style="top: 50px;">
+                        <li class="nav-item active" activates="livestock">
+                            <a href="#">Livestock</a>
+                        </li>
 
-                <li class="tab-item" activates="vaccinations">
-                    <a href="#">Vaccinations</a>
-                </li>
+                        <li class="nav-item" activates="vaccinations">
+                            <a href="#">Vaccinations</a>
+                        </li>
 
-                <li class="tab-item" activates="vetvisit">
-                    <a href="#">Vet Visits</a>
-                </li>
+                        <li class="nav-item" activates="vetvisit">
+                            <a href="#">Vet Visits</a>
+                        </li>
 
-                <li class="tab-item" activates="pastures">
-                    <a href="#">Pastures</a>
-                </li>
+                        <li class="nav-item" activates="pastures">
+                            <a href="#">Pastures</a>
+                        </li>
 
-                <li class="tab-item" activates="pasture-maintenance">
-                    <a href="#">Pasture Maintenance</a>
-                </li>
+                        <li class="nav-item" activates="pasture-maintenance">
+                            <a href="#">Pasture Maintenance</a>
+                        </li>
 
-                <li class="tab-item" activates="medical">
-                    <a href="#">Medical</a>
-                </li>
+                        <li class="nav-item" activates="medical">
+                            <a href="#">Medical</a>
+                        </li>
 
-                <li class="tab-item" activates="calves">
-                    <a href="#">Calves</a>
-                </li>
-            </ul>
+                        <li class="nav-item" activates="calves">
+                            <a href="#">Calves</a>
+                        </li>
+                    </ul>
+                </div>
 
-            <farmapp-tab template="tab-template" route="livestock" id="livestock" show=true></farmapp-tab>
-            <farmapp-tab template="tab-template" route="vaccinations" id="vaccinations"></farmapp-tab>
-            <farmapp-tab template="tab-template" route="vetVisits" id="vetvisit"></farmapp-tab>
-            <farmapp-tab template="tab-template" route="pastures" id="pastures"></farmapp-tab>
-            <farmapp-tab template="tab-template" route="pastureMaintenance" id="pasture-maintenance"></farmapp-tab>
-            <farmapp-tab template="tab-template" route="medication" id="medical"></farmapp-tab>
-            <farmapp-tab template="tab-template" route="calves" id="calves"></farmapp-tab>
+                <div class="divider-vert column col-1"></div>
+
+                <div class="col-8 column">
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Sub Type" route="livestock"
+                        id="livestock" show=true></farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Vac Type"
+                        route="vaccinations" id="vaccinations"></farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" route="vetVisits" header="Notes"
+                        id="vetvisit"></farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Nickname"
+                        route="pastures" id="pastures"></farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Notes"
+                        route="pastureMaintenance" id="pasture-maintenance">
+                    </farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Medication Name"
+                        route="medication" id="medical"></farmapp-tab>
+                    <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" route="calves" header="Calf Subtype"
+                        id="calves"></farmapp-tab>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -85,16 +101,14 @@
             </nav>
 
             <div class="panel-body">
-                <farmapp-account-tile template="account-tile-template" id="account-email-tile" title="Email"
-                    >
+                <farmapp-account-tile template="account-tile-template" id="account-email-tile" title="Email">
                 </farmapp-account-tile>
 
-                <farmapp-account-tile template="account-tile-template" id="account-phone-tile" title="Phone" editable=true
-                    >
+                <farmapp-account-tile template="account-tile-template" id="account-phone-tile" title="Phone"
+                    editable=true>
                 </farmapp-account-tile>
 
-                <farmapp-account-tile template="account-tile-template" id="account-address-tile" title="Address"
-                    >
+                <farmapp-account-tile template="account-tile-template" id="account-address-tile" title="Address">
                 </farmapp-account-tile>
             </div>
 
@@ -168,17 +182,37 @@
     </div>
 </template>
 
+<template id="tab-subitem-template">
+    <div class="panel">
+        <div class="panel-header text-center" id="panel-header">
+            <h3 class="panel-title text-uppercase text-primary" id="panel-title"></h3>
+        </div>
+        <div class="panel-nav" id="panel-nav">
+        </div>
+        <div class="panel-body">
+            <div class="columns" id="panel-body">
+
+            </div>
+        </div>
+        <div class="panel-footer" id="panel-footer">
+        </div>
+    </div>
+</template>
+
 <template id="tab-template">
     <div id="content" class="d-none">
-        <table class="table table-striped table-hover table-scroll" style="width:100%; position: relative; top: 0; bottom: 0; left: 0; right: 0;" id="table">
-            <thead id="thead">
-            </thead>
 
-            <tbody id="tbody">
-            </tbody>
-        </table>
+        <div id="items">
 
-        <div class="float-left">
+        </div>
+
+        <div class="float-left" style="
+        position: fixed;
+        top: 100%;
+        transform: translateY(-100%);
+        right: 10px;
+        z-index: 1000;
+        ">
             <ul class="pagination" id="pagination">
             </ul>
         </div>
