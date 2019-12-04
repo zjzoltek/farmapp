@@ -1,6 +1,6 @@
 const { ipcRenderer } = require("electron");
-const channels = require("../../../channels");
-const { dbRequest } = require("../utility");
+const channels = require("../../channels");
+const { dbRequest } = require("../index/utility");
 
 class FarmAppHtmlElement extends HTMLElement {
     constructor() {

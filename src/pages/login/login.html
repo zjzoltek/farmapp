@@ -16,19 +16,17 @@
         <p class="empty-subtitle" id="form-error-login">Login using your email and password to get started</p>
         <div class="empty-action">
             <form class="form-horizontal" id="login-form">
-                <div class="form-group">
-                    <label class="form-label" for="login-email">Email</label>
-                    <input class="form-input" type="email" id="login-email" placeholder="example@example.com">
-                    <p class="form-input-hint" id="email-hint"></p>
-                </div>
+                <farmapp-form-input hint="Input must be a valid email" template="form-input-template" input-element-id="login-email-input">
+                    <span slot="label">Email</span>
+                    <input class="form-input" type="email" id="login-email-input" slot="input" required placeholder="example@example.com">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="login-password">Password</label>
-                    <input class="form-input" type="password" id="login-password">
-                    <p class="form-input-hint" id="password-hint"></p>
-                </div>
+                <farmapp-form-input hint="" template="form-input-template" input-element-id="login-password-input">
+                    <span slot="label">Password</span>
+                    <input class="form-input" type="password" id="login-password-input" required slot="input">
+                </farmapp-form-input>
 
                 <br>
 
@@ -51,54 +49,54 @@
         <p class="empty-subtitle" id="form-error-signup">Signup Today!</p>
         <div class="empty-action">
             <form class="form-horizontal" id="login-form">
-                <div class="form-group">
-                    <label class="form-label" for="signup-email">Email</label>
-                    <input class="form-input" type="email" id="signup-email" placeholder="example@example.com">
-                    <p class="form-input-hint" id="email-hint"></p>
-                </div>
+                <farmapp-form-input hint="Input must be a valid email" template="form-input-template" input-element-id="email-input">
+                    <span slot="label">Email</span>
+                    <input class="form-input" type="email" id="email-input" slot="input" required placeholder="example@example.com">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-password">Password</label>
-                    <input class="form-input" type="password" id="signup-password">
-                    <p class="form-input-hint" id="password-hint"></p>
-                </div>
+                <farmapp-form-input hint="" template="form-input-template" input-element-id="password-input">
+                    <span slot="label">Password</span>
+                    <input class="form-input" type="password" id="password-input" required slot="input">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-first-name">First Name</label>
-                    <input class="form-input" type="text" required id="signup-first-name">
-                </div>
+                <farmapp-form-input hint="" template="form-input-template" input-element-id="first-name-input">
+                    <span slot="label">First Name</span>
+                    <input class="form-input" type="text" required id="first-name-input" required slot="input">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-last-name">Last Name</label>
-                    <input class="form-input" type="text" required id="signup-last-name">
-                </div>
+                <farmapp-form-input hint="" template="form-input-template" input-element-id="last-name-input">
+                    <span slot="label">Last Name</span>
+                    <input class="form-input" type="text" required id="last-name-input" required slot="input">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-phone">Phone</label>
-                    <input class="form-input" type="text" required minlength=10 maxlength=10 pattern="\d{10}" id="signup-phone">
-                </div>
+                <farmapp-form-input hint="Phone number must be 10 digits" template="form-input-template" input-element-id="phone-input">
+                    <span slot="label">Phone</span>
+                    <input class="form-input" slot="input" type="text" required minlength=10 maxlength=10 pattern="\d{10}"
+                        id="phone-input">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-address">Address</label>
-                    <input class="form-input" type="text" required id="signup-address">
-                </div>
+                <farmapp-form-input hint="" template="form-input-template" input-element-id="address-input">
+                    <span slot="label">Address</span>
+                    <input slot="input" class="form-input" type="text" required id="address-input">
+                </farmapp-form-input>
 
                 <br>
 
-                <div class="form-group">
-                    <label class="form-label" for="signup-zip">Zip</label>
-                    <input class="form-input" type="text" minlength=5 maxlength=5 pattern="\d{5}" required id="signup-zip">
-                </div>
+                <farmapp-form-input hint="Zipcode must be 5 digits" input-element-id="zip-input" template="form-input-template">
+                    <span slot="label">Zip</span>
+                    <input slot="input" class="form-input" type="text" minlength=5 maxlength=5 pattern="\d{5}" required
+                        id="zip-input">
+                </farmapp-form-input>
 
                 <br>
 
@@ -113,6 +111,13 @@
     </div>
 </body>
 
+<template id="form-input-template">
+    <div class="form-group">
+        <label class="form-label" for="input"><slot name="label">Label</slot></label>
+        <slot name="input" id="input"></slot>
+        <p class="form-input-hint" id="hint"></p>
+    </div>
+</template>
 <script src="login.js"></script>
 
 </html>

@@ -1,11 +1,11 @@
-const { ipcRenderer } = require("electron");
+const {
+    ipcRenderer
+} = require("electron");
 const channels = require("../../channels");
+require("../elements/form-input");
 
-const passwordInputLoginPage = document.getElementById("login-password");
-const emailInputLoginPage = document.getElementById("login-email");
-
-const passwordHint = document.getElementById("password-hint");
-const emailHint = document.getElementById("email-hint");
+const passwordInputLoginPage = document.getElementById("login-password-input");
+const emailInputLoginPage = document.getElementById("login-email-input");
 const signupFormError = document.getElementById("form-error-signup");
 const loginFormError = document.getElementById("form-error-login");
 const signupButtonOnSignupPage = document.getElementById("signup-btn-signup");
@@ -15,6 +15,20 @@ const loginButtonOnLoginPage = document.getElementById("login-btn-login");
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
 
+const ensureAllInputElementsAreValid = (root) => {
+    let formIsValid = true;
+    for (const elem of root.childNodes) {
+        if (elem.checkValidity) {
+            formIsValid = formIsValid && elem.checkValidity() && ensureAllInputElementsAreValid(elem);
+            if (!elem.checkValidity()) elem.dispatchEvent(new Event("input"));
+        } else {
+            formIsValid = formIsValid && ensureAllInputElementsAreValid(elem);
+        }
+    }
+
+    return formIsValid;
+};
+
 ipcRenderer.on(channels.error, (_, error) => {
     console.info("Received error in login page: ", error);
     signupButtonOnSignupPage.classList.remove("loading");
@@ -22,78 +36,65 @@ ipcRenderer.on(channels.error, (_, error) => {
 
     if (loginForm.classList.contains("d-none")) {
         signupFormError.classList.add("text-error");
-        signupFormError.scrollIntoView({ behavior: "smooth" });
+        signupFormError.scrollIntoView({
+            behavior: "smooth"
+        });
         signupFormError.textContent = error;
     } else {
         loginFormError.classList.add("text-error");
-        loginFormError.scrollIntoView({ behavior: "smooth" });
+        loginFormError.scrollIntoView({
+            behavior: "smooth"
+        });
         loginFormError.textContent = error;
     }
 });
 
-passwordInputLoginPage.addEventListener("blur", () => {
-    passwordHint.textContent = "";
-    passwordInputLoginPage.parentElement.classList.remove("has-error");
-});
-
-emailInputLoginPage.addEventListener("blur", () => {
-    emailHint.textContent = "";
-    emailInputLoginPage.parentElement.classList.remove("has-error");
-});
-
 signupButtonOnSignupPage.addEventListener("click", () => {
     signupButtonOnSignupPage.classList.add("loading");
+ 
+    let formIsValid = ensureAllInputElementsAreValid(signupForm);
 
-    const email = document.getElementById("signup-email").value;
-    const password_hash = document.getElementById("signup-password").value;
-    const first_name = document.getElementById("signup-first-name").value;
-    const last_name = document.getElementById("signup-last-name").value;
-    const address = document.getElementById("signup-address").value;
-    const zip_code = document.getElementById("signup-zip").value;
-    const phone_num = document.getElementById("signup-phone").value;
+    if (!formIsValid) {
+        signupButtonOnSignupPage.classList.remove("loading");
+        return false;   
+    }
+
+
+    const email = document.getElementById("email-input").value;
+    const password_hash = document.getElementById("password-input").value;
+    const first_name = document.getElementById("first-name-input").value;
+    const last_name = document.getElementById("last-name-input").value;
+    const address = document.getElementById("address-input").value;
+    const zip_code = document.getElementById("zip-input").value;
+    const phone_num = document.getElementById("phone-input").value;
     const user_type = "reg_usr";
 
     ipcRenderer.send(channels.signup, {
-       email,
-       first_name,
-       last_name,
-       address,
-       zip_code,
-       phone_num,
-       user_type,
-       password_hash
+        email,
+        first_name,
+        last_name,
+        address,
+        zip_code,
+        phone_num,
+        user_type,
+        password_hash
     });
 });
 
 loginButtonOnLoginPage.addEventListener("click", () => {
-    let formIsGood = true;
-    
-    if (emailInputLoginPage.value.trim() === "") {
-        emailHint.textContent = "Email field cannot be empty";
-        emailInputLoginPage.parentElement.classList.add("has-error");
-        formIsGood = false;
-    } else if (!emailInputLoginPage.reportValidity()) {
-        emailHint.textContent = "Invalid email";
-        emailInputLoginPage.parentElement.classList.add("has-error");
-        formIsGood = false;
+    loginButtonOnLoginPage.classList.add("loading");
+
+    let formIsValid = ensureAllInputElementsAreValid(loginForm);
+
+    if (!formIsValid) {
+        loginButtonOnLoginPage.classList.remove("loading");
+        return false;   
     }
-    
-    if (passwordInputLoginPage.value.trim() === "") {
-        passwordHint.textContent = "Password field cannot be empty";
-        passwordHint.parentElement.classList.add("has-error");
-        formIsGood = false;
-    }
-    
-    if (formIsGood) {
-        loginButtonOnLoginPage.classList.add("loading");
-        ipcRenderer.send(channels.credentials, {
-            email: emailInputLoginPage.value,
-            password: passwordInputLoginPage.value
-        });
-        return true;
-    } else {
-        return false;
-    }
+
+    ipcRenderer.send(channels.credentials, {
+        email: emailInputLoginPage.value,
+        password: passwordInputLoginPage.value
+    });
 });
 
 signupButtonOnLoginPage.addEventListener("click", () => {

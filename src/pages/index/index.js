@@ -1,9 +1,15 @@
-const { ipcRenderer } = require("electron");
+const {
+    ipcRenderer
+} = require("electron");
 const channels = require("../../channels");
-const { dbRequest } = require("./utility");
-const { Toaster } = require("./toaster");
+const {
+    dbRequest
+} = require("./utility");
+const {
+    Toaster
+} = require("./toaster");
 
-require("./elements/all");
+require("../elements/all");
 
 function convertUserTypeToEnglish(type) {
     const conversions = {
@@ -22,19 +28,19 @@ document.getElementById("content").querySelectorAll(".nav-item").forEach((elemen
         // Take the currently active tab and make it inactive
         const activeTab = event.currentTarget.parentNode.querySelector(".nav-item.active");
         activeTab.classList.remove("active");
-        
+
         // Take the content that the just-deactivated tab guarded and hide it
         const tabToBeHidden = document.getElementById(activeTab.getAttribute("activates"));
         tabToBeHidden.setAttribute("show", "");
-    
+
         // Activate the clicked on tab
         event.currentTarget.classList.add("active");
-        
+
         // Activate the content that the clicked on tab guards
         const tab = document.getElementById(event.currentTarget.getAttribute("activates"));
         tab.setAttribute("show", "true");
     };
-    
+
 });
 
 document.getElementById("navbar-signout").onclick = () => {
@@ -64,17 +70,17 @@ document
             table: "users",
             identifyingData: {
                 "email": document
-                            .getElementById("account-email-tile")
-                            .shadowRoot
-                            .getElementById("tile-value")
-                            .textContent
+                    .getElementById("account-email-tile")
+                    .shadowRoot
+                    .getElementById("tile-value")
+                    .textContent
             },
             dataToUpdate: {
                 "phone_num": document
-                            .getElementById("account-phone-tile")
-                            .shadowRoot
-                            .getElementById("tile-value")
-                            .textContent
+                    .getElementById("account-phone-tile")
+                    .shadowRoot
+                    .getElementById("tile-value")
+                    .textContent
             }
         })
     });
