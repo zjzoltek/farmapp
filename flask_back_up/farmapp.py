@@ -111,29 +111,6 @@ def showAllLivestockView():
 
 @app.route('/add_Livestock', methods=['POST'])
 def add_Livestock():
-    if request.method == 'POST':
-        ownerID = request.form['OwnerID']
-        bornDate = request.form['input_born_date']
-        subType = request.form['input_sub_type']
-        health = request.form['input_health']
-        notes = request.form['input_notes']
-        weight = request.form['input_weight']
-        market_date = request.form['input_market_date']
-        goal = request.form['input_goal_price']
-        sale = request.form['input_sale_price']
-        location = request.form['input_location']
-    if session.get('user'):
-        con = mysql.connect()
-        cursor = con.cursor()
-        cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
-        data = cursor.fetchall()
-        cursor.close()
-        return render_template('showAllLivestockView.html', livestockdata=data, ownerID=session.get('user'))
-    else:
-        return render_template('error.html', error = 'Unauthorized Access')
-        
-@app.route('/add_Livestock', methods=['POST'])
-def add_Livestock():
     if session.get('user'):
         if request.method == 'POST':
             ownerID = request.form['OwnerID']
@@ -148,12 +125,14 @@ def add_Livestock():
             location = request.form['input_location']
             con = mysql.connect()
             cursor = con.cursor()
-            cursor.callproc('Insert_new_livestock_Record',(ownerID, bornDate, subType, health, notes, weight, market_date, goal, sale, location))
-            con.commit()
+            cursor.callproc('Get_All_Livestock',[1]) # 1 is hard coded
+            data = cursor.fetchall()
             cursor.close()
-        return json.dumps({'message':'record created successfully !'})
+            return render_template('showAllLivestockView.html', livestockdata=data, ownerID=session.get('user'))
     else:
         return render_template('error.html', error = 'Unauthorized Access')
+        
+
 
 @app.route('/deleteLiverstockRecord/<string:livestockID>', methods=['POST'])
 def deleteLiverstockRecord(livestockID):
