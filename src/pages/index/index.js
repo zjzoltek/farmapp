@@ -4,7 +4,7 @@ const {
 const channels = require("../../channels");
 const {
     dbRequest
-} = require("./utility");
+} = require("../utility");
 const {
     Toaster
 } = require("./toaster");
@@ -22,26 +22,6 @@ function convertUserTypeToEnglish(type) {
 document.getElementById("signout-modal").shadowRoot.getElementById("ok-button").onclick = () => {
     ipcRenderer.send(channels.signout);
 };
-
-document.getElementById("content").querySelectorAll(".nav-item").forEach((element) => {
-    element.onclick = (event) => {
-        // Take the currently active tab and make it inactive
-        const activeTab = event.currentTarget.parentNode.querySelector(".nav-item.active");
-        activeTab.classList.remove("active");
-
-        // Take the content that the just-deactivated tab guarded and hide it
-        const tabToBeHidden = document.getElementById(activeTab.getAttribute("activates"));
-        tabToBeHidden.setAttribute("show", "");
-
-        // Activate the clicked on tab
-        event.currentTarget.classList.add("active");
-
-        // Activate the content that the clicked on tab guards
-        const tab = document.getElementById(event.currentTarget.getAttribute("activates"));
-        tab.setAttribute("show", "true");
-    };
-
-});
 
 document.getElementById("navbar-signout").onclick = () => {
     document.getElementById("signout-modal").setAttribute("active", "true");

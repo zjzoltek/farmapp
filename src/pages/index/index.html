@@ -5,6 +5,12 @@
     <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre-exp.css">
     <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre.css">
     <link rel="stylesheet" href="../../../node_modules/spectre.css/dist/spectre-icons.css">
+    <style>
+        .panel {
+            border: none !important;
+            border-bottom: .1rem solid #dadee4 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,7 +22,7 @@
     </div>
 
     <div id="main-content" class="my-2">
-        <header class="navbar p-sticky" style="top: 0px;">
+        <header class="navbar" style="">
             <section class="navbar-section">
             </section>
             <section class="navbar-section">
@@ -28,34 +34,20 @@
         <div id="content" class="my-2 mx-2">
             <div class="columns col-online">
                 <div class="column col-3">
-                    <ul class="nav p-sticky" style="top: 50px;">
-                        <li class="nav-item active" activates="livestock">
-                            <a href="#">Livestock</a>
-                        </li>
-
-                        <li class="nav-item" activates="vaccinations">
-                            <a href="#">Vaccinations</a>
-                        </li>
-
-                        <li class="nav-item" activates="vetvisit">
-                            <a href="#">Vet Visits</a>
-                        </li>
-
-                        <li class="nav-item" activates="pastures">
-                            <a href="#">Pastures</a>
-                        </li>
-
-                        <li class="nav-item" activates="pasture-maintenance">
-                            <a href="#">Pasture Maintenance</a>
-                        </li>
-
-                        <li class="nav-item" activates="medical">
-                            <a href="#">Medical</a>
-                        </li>
-
-                        <li class="nav-item" activates="calves">
-                            <a href="#">Calves</a>
-                        </li>
+                    <ul class="nav p-sticky" style="top: 0px;">
+                        <farmapp-nav-item active="true" template="nav-template" activates="livestock" title="Livestock">
+                        </farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="vaccinations" title="Vaccinations">
+                        </farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="vetvisit" title="Vet Visits">
+                        </farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="pastures" title="Pastures">
+                        </farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="pasture_maintenance"
+                            title="Pasture Maintenance"></farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="medical" title="Medical">
+                        </farmapp-nav-item>
+                        <farmapp-nav-item template="nav-template" activates="calves" title="Calves"></farmapp-nav-item>
                     </ul>
                 </div>
 
@@ -71,7 +63,7 @@
                     <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Nickname"
                         route="pastures" id="pastures"></farmapp-tab>
                     <farmapp-tab template="tab-template" subitem-template="tab-subitem-template" header="Notes"
-                        route="pastureMaintenance" id="pasture-maintenance">
+                        route="pastureMaintenance" id="pasture_maintenance">
                     </farmapp-tab>
                     <farmapp-tab template="tab-template" subitem-template="tab-subitem-template"
                         header="Medication Name" route="medication" id="medical"></farmapp-tab>
@@ -132,6 +124,42 @@
 </farmapp-modal>
 
 
+<farmapp-modal template="modal-template" id="add-new-modal">
+    <div slot="modal-content" id="add-new-content">
+        <div class="panel">
+            <div class="panel-header text-center">
+                <figure>
+                    <i class="icon icon-upload icon-2x"></i>
+                </figure>
+                <div class="panel-title h5 mt-1" id="add-new-panel-title"></div>
+                <div class="panel-subtitle text-primary" id="add-new-panel-subtitle"></div>
+            </div>
+
+            <nav class="panel-nav">
+                <ul class="tab tab-block">
+                    <li class="tab-item active"><a href="#" id=""></a></li>
+                </ul>
+            </nav>
+
+            <div class="panel-body" id="add-new-panel-body">
+                <form id="add-new-modal-form">
+                    <div id="add-new-modal-input-area"></div>
+
+                </form>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-primary btn-block" id="add-new-save-button">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <span slot="modal-title">Add New</span>
+    <span slot="ok-button-text">Save</span>
+    <span slot="cancel-button-text">Cancel</span>
+    <span slot="ok-button"></span>
+    <span slot="cancel-button"></span>
+</farmapp-modal>
+
 <template id="account-tile-template">
     <div class="tile tile-centered my-2">
         <div class="tile-content">
@@ -148,6 +176,17 @@
             <button class="btn btn-link btn-action btn-lg tooltip tooltip-left" data-tooltip="Edit"
                 id="action-button"><i class="icon icon-edit"></i></button>
         </div>
+    </div>
+</template>
+
+
+<template id="form-input-template">
+    <div class="form-group">
+        <label class="form-label" for="input">
+            <slot name="label">Label</slot>
+        </label>
+        <slot name="input" id="input"></slot>
+        <p class="form-input-hint text-error" id="hint"></p>
     </div>
 </template>
 
@@ -199,6 +238,25 @@
     </div>
 </template>
 
+<template id="nav-template">
+    <li class="nav-item my-1">
+        <div class="columns">
+            <div class="column col-8">
+                <a href="#" id="title"></a>
+            </div>
+
+            <div class="column col-4">
+                <farmapp-add-new template="add-new-template" id="add-new" class="">
+                </farmapp-add-new>
+            </div>
+        </div>
+    </li>
+</template>
+
+<template id="add-new-template">
+    <button class="btn btn-primary btn-sm" id="add-button">Add New</button>
+</template>
+
 <template id="tab-template">
     <div id="content" class="d-none">
 
@@ -210,15 +268,16 @@
         position: fixed;
         top: 100%;
         transform: translateY(-100%);
-        right: 10px;
-        z-index: 1000;
+        left: 10px;
+        z-index: 10
+        00;
         ">
             <ul class="pagination" id="pagination">
             </ul>
         </div>
-
     </div>
 </template>
+
 
 </html>
 

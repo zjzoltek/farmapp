@@ -127,6 +127,7 @@ class Database {
             fields
         } = await this.performQuery(sql);
 
+
         let {
             results: countResults
         } = await this.performQuery(countSql);
@@ -189,7 +190,7 @@ class Database {
             for (const f of fields) {
                 if (f.type === 10 || f.type === 11 || f.type === 12) {
                     for (let r of results) {
-                        r[f.name] = new Date(r[f.name]).toLocaleString();
+                        r[f.name] = new Date(r[f.name]).toLocaleDateString();
                     }
                 }
             }

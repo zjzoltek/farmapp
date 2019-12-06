@@ -80,5 +80,4 @@ class AccountTile extends FarmAppHtmlElement {
     }
 }
 
-document.getElementById("")
 customElements.define("farmapp-account-tile", AccountTile);

@@ -25,7 +25,7 @@
 
                 <farmapp-form-input hint="" template="form-input-template" input-element-id="login-password-input">
                     <span slot="label">Password</span>
-                    <input class="form-input" type="password" id="login-password-input" required slot="input">
+                    <input class="form-input" type="password" id="login-password-input" required slot="input" placeholder="Password">
                 </farmapp-form-input>
 
                 <br>
@@ -115,7 +115,7 @@
     <div class="form-group">
         <label class="form-label" for="input"><slot name="label">Label</slot></label>
         <slot name="input" id="input"></slot>
-        <p class="form-input-hint" id="hint"></p>
+        <p class="form-input-hint text-error" id="hint"></p>
     </div>
 </template>
 <script src="login.js"></script>

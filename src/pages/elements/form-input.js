@@ -8,27 +8,32 @@ class FormInput extends FarmAppHtmlElement {
 
         const shadow = this.init();
 
-        this.inputElementId = this.ensureAttributeExists("input-element-id");
-        this.inputElement = document.getElementById(this.inputElementId);
+        this.inputElementId = this.getAttribute("input-element-id");
         this.hintElement = shadow.getElementById("hint");
         this.hint = this.ensureAttributeExists("hint");
+    }
 
-        if (!this.inputElement) throw Error("No element with id " + this.inputElementId + " exists!");
+    set inputElementId(value) {
+        this.inputElement = document.getElementById(value);
+
+        if (!this.inputElement) return;
 
         this.inputElement.addEventListener("input", () => {
-            this.hintElement.parentElement.classList.remove("has-error");
-            this.hintElement.parentElement.classList.remove("has-success");
+            this.inputElement.classList.remove("is-error", "is-success");
+            this.hintElement.classList.remove("text-success", "text-error");
 
             if (!(this.inputElement.value)) {
                 this.hintElement.textContent = "Field cannot be empty";
-                this.hintElement.parentElement.classList.add("has-error");
+                this.inputElement.classList.add("is-error");
+                this.hintElement.classList.add("text-error");
             } else {
                 if (!this.inputElement.checkValidity()) {
                     this.hintElement.textContent = this.hint;
-                    this.hintElement.parentElement.classList.add("has-error");
+                    this.inputElement.classList.add("is-error");
+                    this.hintElement.classList.add("text-error");
                 } else {
-                    this.hintElement.textContent = "";
-                    this.hintElement.parentElement.classList.add("has-success");
+                    this.inputElement.classList.add("is-success");
+                    this.hintElement.classList.add("text-success");
                     this.hintElement.textContent = "Looks good 🎉!";
                 }
             }
@@ -37,10 +42,15 @@ class FormInput extends FarmAppHtmlElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name, oldValue, newValue);
+
+        if (name == "input-element-id") {
+            console.log(newValue);
+            this.inputElementId = newValue;
+        }
     }
 
     static get observedAttributes() {
-        return [];
+        return ["input-element-id"];
     }
 }
 

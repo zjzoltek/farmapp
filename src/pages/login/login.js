@@ -14,20 +14,7 @@ const signupButtonOnLoginPage = document.getElementById("signup-btn-login");
 const loginButtonOnLoginPage = document.getElementById("login-btn-login");
 const loginForm = document.getElementById("login-form");
 const signupForm = document.getElementById("signup-form");
-
-const ensureAllInputElementsAreValid = (root) => {
-    let formIsValid = true;
-    for (const elem of root.childNodes) {
-        if (elem.checkValidity) {
-            formIsValid = formIsValid && elem.checkValidity() && ensureAllInputElementsAreValid(elem);
-            if (!elem.checkValidity()) elem.dispatchEvent(new Event("input"));
-        } else {
-            formIsValid = formIsValid && ensureAllInputElementsAreValid(elem);
-        }
-    }
-
-    return formIsValid;
-};
+const { ensureAllInputElementsAreValid } = require("../utility");
 
 ipcRenderer.on(channels.error, (_, error) => {
     console.info("Received error in login page: ", error);
